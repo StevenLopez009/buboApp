@@ -1,5 +1,5 @@
 import User from "../models/user.model.js"
-import bcrypt from "bcryptjs";
+import bcrypt from "bcrypt";
 import { createAccessToken } from "../libs/jwt.js";
 
 export const registerController=async (req, res)=>{
@@ -12,7 +12,7 @@ export const registerController=async (req, res)=>{
       email,
       password: hashedPassword,
       contact,
-    rh,
+      rh,
       eps,
       age,
       rol,
@@ -31,6 +31,33 @@ export const registerController=async (req, res)=>{
   }
 }
 
-export const loginController= (req, res)=>{
-  res.send('login')
+export const loginController=async (req, res)=>{
+ const {  email, password } = req.body;
+
+  try {
+    const userFound = await User.findOne({ where: { email } });
+    if(!userFound) return res.status(400).json({message:"user not found"})
+
+    const isMatch = await bcrypt.compare(password, userFound.password);
+    if(!isMatch) return res.status(400).json({message:"Incorrect password"})
+
+    const token = await createAccessToken({id:userFound.id})
+    
+   res.cookie('token', token)
+    res.json({
+      id: userFound.id,
+      username:userFound.username,
+      email:userFound.email,
+      rol: userFound.rol
+    })
+  } catch (error) {
+    res.status(500).json({message:error.message})
+  }
+}
+
+export const logoutController =async (req,res)=>{
+  res.cookie('token',"",{
+    expires:new Date(0)
+  })
+  return res.sendStatus(200)
 }

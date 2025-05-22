@@ -40,7 +40,7 @@ const User = sequelize.define('User', {
     validate: { min: 1, max: 100 }
   },
   rol: {
-    type: DataTypes.ENUM('manicurista', 'administrador', 'cliente'),
+    type: DataTypes.ENUM('manicurista', 'administrador', 'superadmin'),
     allowNull: false,
     defaultValue: 'manicurista'
   },
