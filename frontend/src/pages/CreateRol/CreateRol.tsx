@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 
-const CreateRoleForm: React.FC = () => {
+const CreateRol: React.FC = () => {
   const { signup } = useAuth();
 
   const [formData, setFormData] = useState({
@@ -22,7 +22,7 @@ const CreateRoleForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await signup(formData); // llama a signup con los datos del formulario
+      await signup(formData); 
       alert("Usuario creado correctamente");
     } catch (error) {
       console.error("Error al crear usuario", error);
@@ -60,4 +60,4 @@ const CreateRoleForm: React.FC = () => {
   );
 };
 
-export default CreateRoleForm;
+export default CreateRol;

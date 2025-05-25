@@ -14,6 +14,7 @@ const Login: React.FC = () => {
   const navigate= useNavigate()
 
   useEffect(() => {
+    console.log("User:", user);
     if (isAuthenticated && user) {
       switch (user.rol) {
         case "superadmin":
@@ -37,8 +38,8 @@ const Login: React.FC = () => {
 
   return (
     <form onSubmit={onSubmit}>
-      <input type="text" {...register("email",{required:true})}/>
-      <input type="password" {...register("password",{required:true})}/>
+      <input type="text" {...register("email",{required:true})} placeholder='email'/>
+      <input type="password" {...register("password",{required:true})} placeholder='password'/>
       <button>Login</button>
     </form>
   );

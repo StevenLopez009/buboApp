@@ -1,5 +1,5 @@
 import {  createContext, useContext, useState } from "react";
-import { loginRequest } from "../api/auth";
+import { loginRequest, RegisterRequest } from "../api/auth";
 
 interface UserLogin {
   email: string;
@@ -13,16 +13,26 @@ interface User {
   rol: "manicurista" | "administrador" | "superadmin";
 }
 
+interface UserRegister {
+  username: string;
+  email: string;
+  password: string;
+  contact: string;
+  rh: string;
+  eps: string;
+  age: string;
+  rol: string
+}
 
 interface AuthContextType {
   user: User | null;
   signin: (user: UserLogin) => Promise<void>;
+  signup: (user: UserRegister) => Promise<void>;
   isAuthenticated: boolean;
   errors: string[];
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
 
 export const useAuth =()=>{
   const context = useContext(AuthContext);
@@ -49,8 +59,18 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  const signup = async (user: UserRegister) => {
+  try {
+    await RegisterRequest(user);
+    setErrors([]);
+  } catch (error: any) {
+   console.log(error)
+  }
+};
+
+
   return(
-   <AuthContext.Provider value={{ signin, user, isAuthenticated, errors }}>
+   <AuthContext.Provider value={{ signin, signup, user, isAuthenticated, errors }}>
       {children}
     </AuthContext.Provider>
   )

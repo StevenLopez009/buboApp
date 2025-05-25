@@ -1,50 +1,50 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom"
-import Splash from "./pages/Splash/Splash"
-import Login from "./pages/Login/Login"
-import { AuthProvider } from "./context/AuthContext"
-import RootDash from "./pages/RootDash/RootDash"
-import ProtectedRoute from "./components/ProtectedRoute"
-import UserDash from "./pages/UserDash"
-import AdminDash from "./pages/AdminDash"
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext";
+import ProtectedRoute from "./components/ProtectedRoute";
+
+// tus páginas
+
+import AdminDash from "./pages/Admin/AdminDash";
+import UserDash from "./pages/Manicurista/UserDash";
+import Splash from "./pages/Splash/Splash";
+import Login from "./pages/Login/Login";
+import RootDash from "./pages/SuperAdmin/RootDash";
+import CreateRol from "./pages/CreateRol/CreateRol";
+import SuperadminLayout from "./pages/SuperAdmin/SuperAdmin";
+import AdminLayout from "./pages/Admin/AdminLayout";
+import UserLayout from "./pages/Manicurista/UserLayout";
 
 function App() {
-
   return (
     <AuthProvider>
       <BrowserRouter>
         <Routes>
-            <Route path="/" element={<Splash />} />
-            <Route path="/login" element={<Login />} />
-           <Route
-              path="/rootDash"
-              element={
-                <ProtectedRoute allowedRoles={["superadmin"]}>
-                  <RootDash />
-                </ProtectedRoute>
-              }
-            />
-            
-            <Route
-              path="/adminDash"
-              element={
-                <ProtectedRoute allowedRoles={["administrador"]}>
-                  <AdminDash />
-                </ProtectedRoute>
-              }
-            />
+          <Route path="/" element={<Splash />} />
+          <Route path="/login" element={<Login />} />
 
-            <Route
-              path="/userDash"
-              element={
-                <ProtectedRoute allowedRoles={["manicurista"]}>
-                  <UserDash />
-                </ProtectedRoute>
-              }
-            />
+          <Route element={<ProtectedRoute allowedRoles={["superadmin"]} />}>
+            <Route element={<SuperadminLayout />}>
+            <Route path="/rootDash" element={<RootDash />} />
+              <Route path="/createRol" element={<CreateRol />} />
+            </Route>
+          </Route>
+
+          <Route element={<ProtectedRoute allowedRoles={["administrador"]} />}>
+            <Route element={<AdminLayout />}>
+              <Route path="/adminDash" element={<AdminDash />} />
+              <Route path="/crearRol" element={<CreateRol />} />
+            </Route>
+          </Route>
+
+          <Route element={<ProtectedRoute allowedRoles={["manicurista"]} />}>
+            <Route element={<UserLayout />}>
+              <Route path="/userDash" element={<UserDash/>} />
+            </Route>
+          </Route>
         </Routes>
       </BrowserRouter>
     </AuthProvider>
-  )
+  );
 }
 
-export default App
+export default App;
