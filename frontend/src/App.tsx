@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
-
+import { ServiceProvider } from "./context/ServiceContext";
 // tus páginas
 
 import AdminDash from "./pages/Admin/AdminDash";
@@ -13,10 +13,12 @@ import CreateRol from "./pages/CreateRol/CreateRol";
 import SuperadminLayout from "./pages/SuperAdmin/SuperAdmin";
 import AdminLayout from "./pages/Admin/AdminLayout";
 import UserLayout from "./pages/Manicurista/UserLayout";
+import Services from "./pages/Services/Services";
 
 function App() {
   return (
     <AuthProvider>
+      <ServiceProvider>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Splash />} />
@@ -26,6 +28,7 @@ function App() {
             <Route element={<SuperadminLayout />}>
             <Route path="/rootDash" element={<RootDash />} />
               <Route path="/createRol" element={<CreateRol />} />
+              <Route path="/services" element={<Services />} />
             </Route>
           </Route>
 
@@ -43,6 +46,7 @@ function App() {
           </Route>
         </Routes>
       </BrowserRouter>
+      </ServiceProvider>
     </AuthProvider>
   );
 }
