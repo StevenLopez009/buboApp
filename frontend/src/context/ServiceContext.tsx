@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import { serviceRequest } from "../api/service";
+import { serviceRequest, fetchServicesFromAPI  } from "../api/service";
 
 interface Service {
   id: number;
@@ -15,6 +15,7 @@ interface ServiceCreate {
 interface ServiceContextType {
   services: Service[];
   createService: (data: ServiceCreate) => Promise<void>;
+  getServices: () => Promise<void>;
   error: string | null;
   loading: boolean;
 }
@@ -48,8 +49,22 @@ export const ServiceProvider = ({ children }: { children: React.ReactNode }) => 
     }
   };
 
+ const getServices = async () => {
+    try {
+      setLoading(true);
+      const res = await fetchServicesFromAPI ();
+      setServices(res.data);
+      setError(null);
+    } catch (err: any) {
+      console.error(err);
+      setError("Error al obtener servicios");
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
-    <ServiceContext.Provider value={{ services, createService, error, loading }}>
+    <ServiceContext.Provider value={{ services, createService, getServices, error, loading }}>
       {children}
     </ServiceContext.Provider>
   );
