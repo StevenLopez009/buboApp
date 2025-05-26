@@ -14,6 +14,7 @@ import SuperadminLayout from "./pages/SuperAdmin/SuperAdmin";
 import AdminLayout from "./pages/Admin/AdminLayout";
 import UserLayout from "./pages/Manicurista/UserLayout";
 import Services from "./pages/Services/Services";
+import ServiceForm from "./pages/Manicurista/ServiceForm";
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function App() {
           <Route element={<ProtectedRoute allowedRoles={["manicurista"]} />}>
             <Route element={<UserLayout />}>
               <Route path="/userDash" element={<UserDash/>} />
+              <Route path="/registerService" element={<ServiceForm/>} />
             </Route>
           </Route>
         </Routes>

@@ -25,3 +25,21 @@ export const getServicesController = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 }
+
+export const deleteServiceController = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const service = await Service.findByPk(id);
+
+    if (!service) {
+      return res.status(404).json({ message: "Service not found" });
+    }
+
+    await service.destroy();
+
+    res.status(200).json({ message: "Service deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}

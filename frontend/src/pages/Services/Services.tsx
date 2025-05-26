@@ -2,12 +2,11 @@ import { useEffect, useState } from 'react';
 import { useService } from '../../context/ServiceContext'
 
 const Services: React.FC = () => {
-  const { services, createService, getServices, loading, error } = useService();
+  const { services, createService, getServices,deleteService, loading, error } = useService();
   const [formData, setFormData] = useState<{ servicename: string; price: string }>({
   servicename: '',
   price: '',
 });
-
 
   useEffect(() => {
     getServices();
@@ -46,9 +45,13 @@ const Services: React.FC = () => {
       ) : (
         <ul>
           {services.map(service => (
-            <li key={service.id}>
-              {service.servicename} - ${parseInt(service.price).toLocaleString()}
-            </li>
+            <>
+              <li key={service.id}>
+                {service.servicename} - ${parseInt(service.price).toLocaleString()}
+                <button onClick={() => deleteService(service.id)}>Delete</button>
+                <button>Edit</button>
+              </li>
+            </>
           ))}
         </ul>
       )}

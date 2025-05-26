@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import { serviceRequest, fetchServicesFromAPI  } from "../api/service";
+import { serviceRequest, fetchServicesFromAPI , deleteServiceFromAPI } from "../api/service";
 
 interface Service {
   id: number;
@@ -16,6 +16,7 @@ interface ServiceContextType {
   services: Service[];
   createService: (data: ServiceCreate) => Promise<void>;
   getServices: () => Promise<void>;
+  deleteService: (id: string) => Promise<void>;
   error: string | null;
   loading: boolean;
 }
@@ -63,8 +64,22 @@ export const ServiceProvider = ({ children }: { children: React.ReactNode }) => 
     }
   }
 
+  const deleteService = async (id: string) => {
+    try {
+      setLoading(true);
+      await deleteServiceFromAPI(id);
+      setServices((prev) => prev.filter((service) => service.id !== parseInt(id)));
+      setError(null);
+    } catch (err: any) {
+      console.error(err);
+      setError("Error al eliminar servicio");
+    } finally {
+      setLoading(false);
+    }
+   }
+
   return (
-    <ServiceContext.Provider value={{ services, createService, getServices, error, loading }}>
+    <ServiceContext.Provider value={{ services, createService, getServices, deleteService, error, loading }}>
       {children}
     </ServiceContext.Provider>
   );
