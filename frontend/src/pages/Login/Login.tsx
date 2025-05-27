@@ -14,7 +14,6 @@ const Login: React.FC = () => {
   const navigate= useNavigate()
 
   useEffect(() => {
-    console.log("User:", user);
     if (isAuthenticated && user) {
       switch (user.rol) {
         case "superadmin":

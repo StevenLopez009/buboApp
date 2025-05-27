@@ -5,6 +5,7 @@ import cors from 'cors';
 import authRoutes from "./routes/auth.routes.js"
 import serviceRoutes from "./routes/service.routes.js"
 import serviceLog from "./routes/serviceLog.routes.js"
+import billsRoutes from "./routes/bills.router.js"
 
 const app = express()
 
@@ -17,6 +18,7 @@ app.use(cookieParser())
 app.use("/api", authRoutes)
 app.use("/api", serviceRoutes)
 app.use("/api", serviceLog)
+app.use("/api", billsRoutes)
 
 
 export default app;

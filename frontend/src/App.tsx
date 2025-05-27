@@ -2,20 +2,21 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { ServiceProvider } from "./context/ServiceContext";
-// tus páginas
 
 import AdminDash from "./pages/Admin/AdminDash";
 import UserDash from "./pages/Manicurista/UserDash";
 import Splash from "./pages/Splash/Splash";
 import Login from "./pages/Login/Login";
 import RootDash from "./pages/SuperAdmin/RootDash";
-import CreateRol from "./pages/CreateRol/CreateRol";
+import CreateRol from "./pages/SuperAdmin/CreateRol/CreateRol";
 import SuperadminLayout from "./pages/SuperAdmin/SuperAdmin";
 import AdminLayout from "./pages/Admin/AdminLayout";
 import UserLayout from "./pages/Manicurista/UserLayout";
 import Services from "./pages/Services/Services";
 import ServiceForm from "./pages/Manicurista/services/ServiceForm";
 import ServicesDone from "./pages/Manicurista/servicesDone/ServicesDone";
+import CreateRolAdmin from "./pages/Admin/createRol/createRolAdmin";
+import Bills from "./pages/Admin/bills/Bills";
 
 function App() {
   return (
@@ -29,15 +30,17 @@ function App() {
           <Route element={<ProtectedRoute allowedRoles={["superadmin"]} />}>
             <Route element={<SuperadminLayout />}>
             <Route path="/rootDash" element={<RootDash />} />
-              <Route path="/createRol" element={<CreateRol />} />
-              <Route path="/services" element={<Services />} />
+              <Route path="/superadmin/createRol" element={<CreateRol />} />
+              <Route path="/superadmin/services" element={<Services />} />
             </Route>
           </Route>
 
           <Route element={<ProtectedRoute allowedRoles={["administrador"]} />}>
             <Route element={<AdminLayout />}>
               <Route path="/adminDash" element={<AdminDash />} />
-              <Route path="/crearRol" element={<CreateRol />} />
+              <Route path="/admin/createRol" element={<CreateRolAdmin />} />
+              <Route path="/admin/services" element={<Services />} />
+               <Route path="/admin/bills" element={<Bills />} />
             </Route>
           </Route>
 
