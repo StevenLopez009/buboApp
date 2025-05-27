@@ -1,5 +1,6 @@
 import { createContext, useContext, useState } from "react";
-import { serviceRequest, fetchServicesFromAPI , deleteServiceFromAPI } from "../api/service";
+import { serviceRequest, fetchServicesFromAPI , deleteServiceFromAPI,getServiceLogsById } from "../api/service";
+import { registerService as registerServiceAPI } from "../api/service";
 
 interface Service {
   id: number;
@@ -12,11 +13,21 @@ interface ServiceCreate {
   price: number;
 }
 
+interface ServiceRegister {
+  idManicurista: string;
+  idService: string;
+  cliente: string;
+  authorized: boolean;
+}
+
 interface ServiceContextType {
   services: Service[];
   createService: (data: ServiceCreate) => Promise<void>;
   getServices: () => Promise<void>;
   deleteService: (id: string) => Promise<void>;
+  registerService:(data: ServiceRegister) => Promise<void>;
+  getServicesByRol: (id: string) => Promise<void>;
+  serviceLogs: ServiceRegister[];
   error: string | null;
   loading: boolean;
 }
@@ -33,6 +44,7 @@ export const useService = () => {
 
 export const ServiceProvider = ({ children }: { children: React.ReactNode }) => {
   const [services, setServices] = useState<Service[]>([]);
+  const [serviceLogs, setServiceLogs] = useState<ServiceRegister[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -50,7 +62,7 @@ export const ServiceProvider = ({ children }: { children: React.ReactNode }) => 
     }
   };
 
- const getServices = async () => {
+  const getServices = async () => {
     try {
       setLoading(true);
       const res = await fetchServicesFromAPI ();
@@ -78,8 +90,36 @@ export const ServiceProvider = ({ children }: { children: React.ReactNode }) => 
     }
    }
 
+  const registerService = async (data: ServiceRegister) => {
+  try {
+    setLoading(true);
+    await registerServiceAPI(data);
+    setError(null);
+  } catch (error) {
+    console.error(error);
+    setError("Error al registrar el servicio");
+  } finally {
+    setLoading(false);
+  }
+};
+
+  const getServicesByRol = async (id: string) => {
+    try {
+      setLoading(true);
+      const res = await getServiceLogsById(id);
+      setServiceLogs(res.data); 
+      setError(null);
+    } catch (error) {
+      console.error(error);
+      setError("Error al obtener los servicios por rol");
+    } finally{
+      setLoading(false);
+    }
+  }
+
+
   return (
-    <ServiceContext.Provider value={{ services, createService, getServices, deleteService, error, loading }}>
+    <ServiceContext.Provider value={{ services,serviceLogs, createService, getServices, deleteService,registerService,getServicesByRol, error, loading }}>
       {children}
     </ServiceContext.Provider>
   );

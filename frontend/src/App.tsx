@@ -14,7 +14,8 @@ import SuperadminLayout from "./pages/SuperAdmin/SuperAdmin";
 import AdminLayout from "./pages/Admin/AdminLayout";
 import UserLayout from "./pages/Manicurista/UserLayout";
 import Services from "./pages/Services/Services";
-import ServiceForm from "./pages/Manicurista/ServiceForm";
+import ServiceForm from "./pages/Manicurista/services/ServiceForm";
+import ServicesDone from "./pages/Manicurista/servicesDone/ServicesDone";
 
 function App() {
   return (
@@ -44,6 +45,7 @@ function App() {
             <Route element={<UserLayout />}>
               <Route path="/userDash" element={<UserDash/>} />
               <Route path="/registerService" element={<ServiceForm/>} />
+              <Route path="/servicesDone" element={<ServicesDone/>} />
             </Route>
           </Route>
         </Routes>

@@ -19,7 +19,6 @@ export const serviceController = async (req, res) => {
 export const getServicesController = async (req, res) => {
   try {
     const services = await Service.findAll();
-
     res.status(200).json(services);
   } catch (error) {
     res.status(500).json({ message: error.message });

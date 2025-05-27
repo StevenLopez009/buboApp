@@ -7,7 +7,7 @@ const UserDash: React.FC = () => {
       <h1>Manicurista Dashboard</h1>
       <button onClick={() => navigate('/registerService')}>Servicios</button>
       <button>Productos</button>
-      <button>servicios hechos</button>
+      <button onClick={() => navigate('/servicesDone')}>servicios hechos</button>
       <button>Bolsillo</button>
     </div>
   );
