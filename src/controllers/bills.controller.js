@@ -14,3 +14,12 @@ export const createBillController = async (req, res) => {
     res.status(500).json({ message: "Error del servidor", error: error.message });
   }
 };
+
+export const getBillController = async (req, res)=> {
+    try {
+    const bills = await Bills.findAll();
+    res.status(200).json(bills);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}

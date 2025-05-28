@@ -9,3 +9,4 @@ interface Bill {
 
 const API = 'http://localhost:3000/api'
 export const RegisterBill = (bill: Bill) => axios.post(`${API}/bills`, bill);
+export const GetRegisterBill = () => axios.get(`${API}/bills`)

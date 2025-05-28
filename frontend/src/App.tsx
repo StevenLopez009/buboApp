@@ -17,6 +17,7 @@ import ServiceForm from "./pages/Manicurista/services/ServiceForm";
 import ServicesDone from "./pages/Manicurista/servicesDone/ServicesDone";
 import CreateRolAdmin from "./pages/Admin/createRol/createRolAdmin";
 import Bills from "./pages/Admin/bills/Bills";
+import ShowBills from "./pages/SuperAdmin/Bills/ShowBills";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
             <Route path="/rootDash" element={<RootDash />} />
               <Route path="/superadmin/createRol" element={<CreateRol />} />
               <Route path="/superadmin/services" element={<Services />} />
+              <Route path="/superadmin/bills" element={<ShowBills />} />
             </Route>
           </Route>
 
