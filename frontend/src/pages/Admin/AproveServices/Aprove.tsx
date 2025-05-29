@@ -15,8 +15,8 @@ const Aprove = () => {
       <ul>
       {serviceLogs.map((log, index) => (
         <li key={index}>
-          <p>Servicio: {log.serviceName}</p>
           <p>Manicurista: {log.manicuristaName}</p>
+          <p>Servicio: {log.serviceName}</p>
           <p>Autorizado: {log.authorized ? "Sí" : "No"}</p>
           <button>Autorizar</button>
         </li>

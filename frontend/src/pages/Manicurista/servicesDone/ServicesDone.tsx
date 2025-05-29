@@ -3,7 +3,7 @@ import { useService } from "../../../context/ServiceContext";
 import { useAuth } from "../../../context/AuthContext";
 
 const ServicesDone = () => {
-  const { getServicesByRol, serviceLogs, services } = useService(); 
+  const { getServicesByRol, serviceLogs, loading, error } = useService(); 
   const { user } = useAuth();
 
   useEffect(() => {
@@ -12,24 +12,30 @@ const ServicesDone = () => {
     }
   }, [user]);
 
+  if (loading) return <p>Cargando...</p>;
+  if (error) return <p className="error">{error}</p>;
+
   return (
-    <div>
+    <div className="services-container">
       <h2>Servicios Registrados</h2>
       {serviceLogs.length === 0 ? (
         <p>No hay servicios registrados aún.</p>
       ) : (
-        <ul>
-          {serviceLogs.map((log, index) => {
-            const serviceName =
-              services.find((s) => s.id === parseInt(log.idService))?.servicename ||
-              "Servicio desconocido";
-            return (
-              <li key={index}>
-                Cliente: {log.cliente} | Servicio: {serviceName} | Autorizado:
-                {log.authorized ? "Sí" : "No"}
-              </li>
-            );
-          })}
+        <ul className="services-list">
+          {serviceLogs.map((log) => (
+            <li className="service-item">
+              <div className="service-details">
+                <p><strong>Cliente:</strong> {log.cliente}</p>
+                <p><strong>Servicio:</strong> {log.serviceName}</p>
+                <p><strong>Realizado por:</strong> {log.manicuristaName}</p>
+                <p><strong>Estado:</strong> 
+                  <span className={log.authorized ? "status-approved" : "status-pending"}>
+                    {log.authorized ? "Aprobado" : "Pendiente"}
+                  </span>
+                </p>
+              </div>
+            </li>
+          ))}
         </ul>
       )}
     </div>
