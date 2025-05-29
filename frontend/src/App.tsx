@@ -18,6 +18,7 @@ import ServicesDone from "./pages/Manicurista/servicesDone/ServicesDone";
 import CreateRolAdmin from "./pages/Admin/createRol/createRolAdmin";
 import Bills from "./pages/Admin/bills/Bills";
 import ShowBills from "./pages/SuperAdmin/Bills/ShowBills";
+import Aprove from "./pages/Admin/AproveServices/Aprove";
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function App() {
               <Route path="/adminDash" element={<AdminDash />} />
               <Route path="/admin/createRol" element={<CreateRolAdmin />} />
               <Route path="/admin/services" element={<Services />} />
+              <Route path="/admin/aproveServices" element={<Aprove />} />
                <Route path="/admin/bills" element={<Bills />} />
             </Route>
           </Route>

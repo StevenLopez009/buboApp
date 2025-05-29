@@ -6,8 +6,16 @@ const serviceLog = sequelize.define("serviceLog", {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
+  manicuristaName:{
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
   idService: {
     type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  serviceName: {
+    type: DataTypes.STRING,
     allowNull: false,
   },
   cliente: {

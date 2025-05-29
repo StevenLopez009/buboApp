@@ -7,7 +7,9 @@ interface serviceCreate {
 
 interface serviceRegister {
   idManicurista: string;
+  manicuristaName: string;
   idService: string;
+  serviceName: string;
   cliente: string;
   authorized: boolean;
 }
@@ -19,3 +21,4 @@ export const deleteServiceFromAPI = (id: string) => axios.delete(`${API}/service
 
 export const registerService = (service: serviceRegister) => axios.post(`${API}/serviceLog`, service)
 export const getServiceLogsById = (id: string) => axios.get(`${API}/serviceLog/manicurista/${id}`)
+export const getAllServicesLog = () => axios.get(`${API}/serviceLog/admin`)

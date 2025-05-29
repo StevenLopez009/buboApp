@@ -3,7 +3,7 @@ import { useService } from "../../../context/ServiceContext";
 import { useAuth } from "../../../context/AuthContext";
 
 const ServicesDone = () => {
-  const { getServicesByRol, serviceLogs, services } = useService(); // <-- Aquí dentro
+  const { getServicesByRol, serviceLogs, services } = useService(); 
   const { user } = useAuth();
 
   useEffect(() => {
@@ -25,7 +25,7 @@ const ServicesDone = () => {
               "Servicio desconocido";
             return (
               <li key={index}>
-                Cliente: {log.cliente} | Servicio: {serviceName} | Autorizado:{" "}
+                Cliente: {log.cliente} | Servicio: {serviceName} | Autorizado:
                 {log.authorized ? "Sí" : "No"}
               </li>
             );

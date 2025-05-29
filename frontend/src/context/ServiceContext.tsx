@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import { serviceRequest, fetchServicesFromAPI , deleteServiceFromAPI,getServiceLogsById } from "../api/service";
+import { serviceRequest, fetchServicesFromAPI , deleteServiceFromAPI,getServiceLogsById, getAllServicesLog } from "../api/service";
 import { registerService as registerServiceAPI } from "../api/service";
 
 interface Service {
@@ -15,7 +15,9 @@ interface ServiceCreate {
 
 interface ServiceRegister {
   idManicurista: string;
+  manicuristaName: string;
   idService: string;
+  serviceName: string;
   cliente: string;
   authorized: boolean;
 }
@@ -27,6 +29,7 @@ interface ServiceContextType {
   deleteService: (id: string) => Promise<void>;
   registerService:(data: ServiceRegister) => Promise<void>;
   getServicesByRol: (id: string) => Promise<void>;
+  getAllServices:()=> Promise<void>;
   serviceLogs: ServiceRegister[];
   error: string | null;
   loading: boolean;
@@ -117,9 +120,23 @@ export const ServiceProvider = ({ children }: { children: React.ReactNode }) => 
     }
   }
 
+   const getAllServices = async () => {
+    try {
+      setLoading(true);
+      const res = await getAllServicesLog();
+      setServiceLogs(res.data); 
+      setError(null);
+    } catch (error) {
+      console.error(error);
+      setError("Error al obtener los servicios");
+    } finally{
+      setLoading(false);
+    }
+  }
+
 
   return (
-    <ServiceContext.Provider value={{ services,serviceLogs, createService, getServices, deleteService,registerService,getServicesByRol, error, loading }}>
+    <ServiceContext.Provider value={{ services,serviceLogs, createService, getServices, deleteService,registerService,getServicesByRol, getAllServices, error, loading }}>
       {children}
     </ServiceContext.Provider>
   );
