@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import { serviceRequest, fetchServicesFromAPI , deleteServiceFromAPI,getServiceLogsById, getAllServicesLog } from "../api/service";
+import { serviceRequest, fetchServicesFromAPI , deleteServiceFromAPI,getServiceLogsById, getAllServicesLog, getServiceByIdFromAPI, approveServices } from "../api/service";
 import { registerService as registerServiceAPI } from "../api/service";
 
 interface Service {
@@ -14,6 +14,7 @@ interface ServiceCreate {
 }
 
 interface ServiceRegister {
+  id:string,
   idManicurista: string;
   manicuristaName: string;
   idService: string;
@@ -26,10 +27,12 @@ interface ServiceContextType {
   services: Service[];
   createService: (data: ServiceCreate) => Promise<void>;
   getServices: () => Promise<void>;
+  getServiceById:(id: string) => Promise<void>;
   deleteService: (id: string) => Promise<void>;
   registerService:(data: ServiceRegister) => Promise<void>;
   getServicesByRol: (id: string) => Promise<void>;
   getAllServices:()=> Promise<void>;
+  approveService:(id:string)=> Promise<void>;
   serviceLogs: ServiceRegister[];
   error: string | null;
   loading: boolean;
@@ -76,6 +79,17 @@ export const ServiceProvider = ({ children }: { children: React.ReactNode }) => 
       setError("Error al obtener servicios");
     } finally {
       setLoading(false);
+    }
+  }
+
+  const getServiceById = async ()=>{
+    try {
+      setLoading(true)
+      await getServiceByIdFromAPI()
+      setError(null);
+    } catch (error) {
+      console.error(error);
+    setError("Error al obtener el servicio por id");
     }
   }
 
@@ -134,9 +148,17 @@ export const ServiceProvider = ({ children }: { children: React.ReactNode }) => 
     }
   }
 
+  const approveService = async (id:string) => {
+    try {
+      await approveServices(id)
+      getAllServices();
+    } catch (error) {
+      console.error("Error approving service:", error);
+    }
+  };
 
   return (
-    <ServiceContext.Provider value={{ services,serviceLogs, createService, getServices, deleteService,registerService,getServicesByRol, getAllServices, error, loading }}>
+    <ServiceContext.Provider value={{ services,serviceLogs, createService, getServices,getServiceById, deleteService,registerService,getServicesByRol, getAllServices,approveService, error, loading }}>
       {children}
     </ServiceContext.Provider>
   );

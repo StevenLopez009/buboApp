@@ -1,27 +1,30 @@
 import { useEffect } from "react";
 import { useService } from "../../../context/ServiceContext";
 
-
 const Aprove = () => {
-  const { getAllServices,serviceLogs } = useService(); 
+  const { getAllServices, serviceLogs, approveService } = useService(); 
 
   useEffect(() => {
-      getAllServices()
-    }, []);
+    getAllServices();
+  }, []);
 
   return (
     <div>
-      <h1>Aprove Services</h1>
+      <h1>Aprobar Servicios</h1>
       <ul>
-      {serviceLogs.map((log, index) => (
-        <li key={index}>
-          <p>Manicurista: {log.manicuristaName}</p>
-          <p>Servicio: {log.serviceName}</p>
-          <p>Autorizado: {log.authorized ? "Sí" : "No"}</p>
-          <button>Autorizar</button>
-        </li>
-      ))}
-    </ul>
+        {serviceLogs.map((log, index) => (
+          <li key={index}>
+            <p>Manicurista: {log.manicuristaName}</p>
+            <p>Servicio: {log.serviceName}</p>
+            <p>Autorizado: {log.authorized ? "Sí" : "No"}</p>
+            {!log.authorized && (
+              <button onClick={() => approveService(log.id)}>
+                Autorizar
+              </button>
+            )}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };

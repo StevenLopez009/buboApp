@@ -25,6 +25,20 @@ export const getServicesController = async (req, res) => {
   }
 }
 
+export const getServiceById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const service = await Service.findByPk(id)
+     if (!service) {
+      return res.status(404).json({ message: "Service not found" });
+    }
+    res.status(200).json(service);
+  } catch (error) {
+    console.error("Error al obtener el servicio:", error);
+    res.status(500).json({ message: error.message });
+  }
+}
+
 export const deleteServiceController = async (req, res) => {
   const { id } = req.params;
 

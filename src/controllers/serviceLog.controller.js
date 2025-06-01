@@ -47,5 +47,32 @@ export const getAllServicesLog = async (req, res) => {
 }
 
 export const aproveServicesLog = async (req, res) => {
-  
-}
+  const { id } = req.params;
+
+  try {
+    const service = await serviceLog.findByPk(id);
+    if (!service) {
+      return res.status(404).json({ message: "Service log not found" });
+    }
+
+    service.authorized = true;
+    await service.save();
+
+    res.status(200).json({ message: "Service authorized successfully", service });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const getApprovedServicesLog = async (req, res) => {
+  try {
+    const approvedServices = await serviceLog.findAll({
+      where: { authorized: true }
+    });
+
+    res.status(200).json(approvedServices);
+  } catch (error) {
+    console.error("Error al obtener servicios aprobados:", error);
+    res.status(500).json({ message: error.message });
+  }
+};

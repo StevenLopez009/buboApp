@@ -19,6 +19,7 @@ import CreateRolAdmin from "./pages/Admin/createRol/createRolAdmin";
 import Bills from "./pages/Admin/bills/Bills";
 import ShowBills from "./pages/SuperAdmin/Bills/ShowBills";
 import Aprove from "./pages/Admin/AproveServices/Aprove";
+import Pay from "./pages/SuperAdmin/Pay/Pay";
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
               <Route path="/superadmin/createRol" element={<CreateRol />} />
               <Route path="/superadmin/services" element={<Services />} />
               <Route path="/superadmin/bills" element={<ShowBills />} />
+              <Route path="/superadmin/pays" element={<Pay />} />
             </Route>
           </Route>
 
