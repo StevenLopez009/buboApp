@@ -1,43 +1,95 @@
 import { useEffect, useState } from 'react';
-import { useService } from '../../context/ServiceContext'
+import { useService } from '../../context/ServiceContext';
 
 const Services: React.FC = () => {
-  const { services, createService, getServices,deleteService, loading, error } = useService();
+  const {
+    services,
+    createService,
+    getServices,
+    editService,
+    deleteService,
+    loading,
+    error,
+  } = useService();
+
   const [formData, setFormData] = useState<{ servicename: string; price: string }>({
-  servicename: '',
-  price: '',
-});
+    servicename: '',
+    price: '',
+  });
+
+  const [isEditing, setIsEditing] = useState(false);
+  const [editingId, setEditingId] = useState<number | null>(null);
 
   useEffect(() => {
     getServices();
   }, []);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-     const { name, value } = e.target;
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-     await createService({
-        servicename: formData.servicename,
-        price: Number(formData.price), 
-      });
+      if (isEditing && editingId !== null) {
+        await editService({
+          id: editingId.toString(),
+          servicename: formData.servicename,
+          price: Number(formData.price),
+        });
+      } else {
+        await createService({
+          servicename: formData.servicename,
+          price: Number(formData.price),
+        });
+      }
+
       setFormData({ servicename: '', price: '' });
-      getServices(); 
+      setIsEditing(false);
+      setEditingId(null);
+      getServices();
     } catch (error) {
-      console.error("Error al crear service", error);
+      console.error("Error al guardar el servicio", error);
     }
+  };
+
+  const handleEditClick = (service: { id: number; servicename: string; price: number }) => {
+    setIsEditing(true);
+    setEditingId(service.id);
+    setFormData({
+      servicename: service.servicename,
+      price: service.price.toString(),
+    });
+  };
+
+  const handleCancelEdit = () => {
+    setIsEditing(false);
+    setEditingId(null);
+    setFormData({ servicename: '', price: '' });
   };
 
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <input type="text" name="servicename" placeholder="servicename" onChange={handleChange} />
-        <input type="text" name="price" placeholder="price"  value={formData.price.toString()}  onChange={handleChange} />
-        <button type="submit">CREAR</button>
+        <input
+          type="text"
+          name="servicename"
+          placeholder="Nombre del servicio"
+          value={formData.servicename}
+          onChange={handleChange}
+        />
+        <input
+          type="text"
+          name="price"
+          placeholder="Precio"
+          value={formData.price}
+          onChange={handleChange}
+        />
+        <button type="submit">{isEditing ? 'GUARDAR CAMBIOS' : 'CREAR'}</button>
+        {isEditing && <button type="button" onClick={handleCancelEdit}>CANCELAR</button>}
       </form>
+
       {loading ? (
         <p>Cargando servicios...</p>
       ) : error ? (
@@ -45,13 +97,11 @@ const Services: React.FC = () => {
       ) : (
         <ul>
           {services.map(service => (
-            <>
-              <li key={service.id}>
-                {service.servicename} - ${parseInt(service.price).toLocaleString()}
-                <button onClick={() => deleteService(service.id)}>Delete</button>
-                <button>Edit</button>
-              </li>
-            </>
+            <li key={service.id}>
+              {service.servicename} - ${parseInt(service.price.toString()).toLocaleString()}
+              <button onClick={() => deleteService(service.id.toString())}>Eliminar</button>
+              <button onClick={() => handleEditClick(service)}>Editar</button>
+            </li>
           ))}
         </ul>
       )}

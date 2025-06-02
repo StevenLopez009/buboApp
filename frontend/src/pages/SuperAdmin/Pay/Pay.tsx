@@ -126,7 +126,7 @@ const Pay: React.FC = () => {
   }, []);
 
   return (
-    <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+    <div style={{ width: '100%', margin: '0 auto'}}>
       <h1 style={{ textAlign: 'center', marginBottom: '30px' }}>Pagos a Manicuristas</h1>
 
       {loading && <p style={{ textAlign: 'center' }}>Cargando...</p>}
@@ -138,6 +138,7 @@ const Pay: React.FC = () => {
           border: '1px solid #e0e0e0',
           borderRadius: '8px',
           padding: '20px',
+          display:'inline-block'
         }}>
           <h2 style={{
             marginTop: 0,
