@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { serviceLogController, getServicesLogController, getAllServicesLog, aproveServicesLog, getApprovedServicesLog } from "../controllers/serviceLog.controller.js";
+import { createAnotherServiceController, getAnotherServicesController } from "../controllers/anotherService.js";
 
 const router = Router()
 
@@ -7,6 +8,8 @@ router.post('/serviceLog', serviceLogController)
 router.get("/serviceLog/manicurista/:idManicurista",  getServicesLogController)
 router.get('/serviceLog/admin', getAllServicesLog)
 router.put("/services/approve/:id", aproveServicesLog);
-router.get("/services/getApprove", getApprovedServicesLog)
+router.get("/services/getApprove", getApprovedServicesLog);
+router.post('/anotherService', createAnotherServiceController);
+router.get('/anotherServices', getAnotherServicesController)
 
 export default router;

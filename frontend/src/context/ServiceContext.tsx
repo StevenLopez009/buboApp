@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import { serviceRequest, fetchServicesFromAPI , deleteServiceFromAPI,getServiceLogsById, getAllServicesLog, getServiceByIdFromAPI, approveServices, editServices } from "../api/service";
+import { serviceRequest, fetchServicesFromAPI , deleteServiceFromAPI,getServiceLogsById, getAllServicesLog, getServiceByIdFromAPI, approveServices, editServices, getAnotherServicesApi } from "../api/service";
 import { registerService as registerServiceAPI } from "../api/service";
 
 interface Service {
@@ -29,9 +29,19 @@ interface ServiceEdit {
   price?: number;
 }
 
+interface AotherServiceRegister {
+  id:string,
+  idManicurista: string;
+  manicuristaName: string;
+  anotherServiceName: string;
+  cliente: string;
+  authorized: boolean;
+}
+
 
 interface ServiceContextType {
   services: Service[];
+  anotherServicesState: AotherServiceRegister[]; 
   createService: (data: ServiceCreate) => Promise<void>;
   getServices: () => Promise<void>;
   getServiceById:(id: string) => Promise<void>;
@@ -41,6 +51,7 @@ interface ServiceContextType {
   getServicesByRol: (id: string) => Promise<void>;
   getAllServices:()=> Promise<void>;
   approveService:(id:string)=> Promise<void>;
+  getAnotherServices:()=> Promise<void>;
   serviceLogs: ServiceRegister[];
   error: string | null;
   loading: boolean;
@@ -61,6 +72,7 @@ export const ServiceProvider = ({ children }: { children: React.ReactNode }) => 
   const [serviceLogs, setServiceLogs] = useState<ServiceRegister[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [anotherServicesState, setAnotherServicesState] = useState([]);
 
   const createService = async (data: ServiceCreate) => {
     try {
@@ -186,8 +198,32 @@ export const ServiceProvider = ({ children }: { children: React.ReactNode }) => 
     }
   };
 
+  const getAnotherServices = async () => {
+  try {
+    const { data } = await getAnotherServicesApi(); 
+    setAnotherServicesState(data);
+  } catch (error) {
+    console.error("Error al obtener servicios adicionales", error);
+  }
+};
+
   return (
-    <ServiceContext.Provider value={{ services,serviceLogs, createService, getServices,getServiceById,editService, deleteService,registerService,getServicesByRol, getAllServices,approveService, error, loading }}>
+    <ServiceContext.Provider value={{ 
+      services,
+      serviceLogs, 
+      anotherServicesState,
+      createService, 
+      getServices,
+      getServiceById,
+      editService, 
+      deleteService,
+      registerService,
+      getServicesByRol, 
+      getAllServices,
+      approveService, 
+      getAnotherServices,
+      error, 
+      loading }}>
       {children}
     </ServiceContext.Provider>
   );

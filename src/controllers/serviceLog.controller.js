@@ -1,4 +1,5 @@
-import serviceLog from "../models/serviceLog.model.js";
+import { serviceLog } from "../models/index.js";
+
 
 export const serviceLogController = async (req, res) => {
   const { idManicurista,manicuristaName,serviceName, idService, cliente } = req.body;

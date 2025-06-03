@@ -1,12 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useService } from '../../../context/ServiceContext';
 import { useAuth } from '../../../context/AuthContext';
+import { createAnotherService } from '../../../api/service';
+
+interface ServiceCreate {
+  servicename: string;
+  price: number;
+}
 
 const ServiceForm: React.FC = () => {
-  const {services, getServices, registerService } = useService();
-  const {user}= useAuth();
+  const { services, getServices, registerService } = useService();
+  const { user } = useAuth();
+
   const [selectedServiceId, setSelectedServiceId] = useState('');
   const [selectedServiceName, setSelectedServiceName] = useState('');
+  const [anotherService, setAnotherService] = useState(false);
+  const [customServiceName, setCustomServiceName] = useState('');
+  const [customServicePrice, setCustomServicePrice] = useState('');
   const [cliente, setCliente] = useState('');
 
   useEffect(() => {
@@ -15,24 +25,60 @@ const ServiceForm: React.FC = () => {
 
   const handleServiceChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const serviceId = e.target.value;
-    const service = services.find(s => s.id.toString() === serviceId);
-    setSelectedServiceId(serviceId);
-    setSelectedServiceName(service?.servicename || '');
+
+    if (serviceId === 'otro') {
+      setAnotherService(true);
+      setSelectedServiceId('otro');
+      setSelectedServiceName('');
+    } else {
+      const service = services.find(s => s.id.toString() === serviceId);
+      setAnotherService(false);
+      setSelectedServiceId(serviceId);
+      setSelectedServiceName(service?.servicename || '');
+    }
+  };
+
+  const handleCreateAnotherService = async (data: ServiceCreate) => {
+    try {
+      const res = await createAnotherService(data);
+      await getServices(); 
+      return res.data; 
+    } catch (err: any) {
+      console.error(err);
+      alert('Error al crear el nuevo servicio');
+      throw err;
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!selectedServiceId || !cliente|| !user) {
+    if (!cliente || !user || (anotherService && (!customServiceName || !customServicePrice))) {
       alert('Completa todos los campos');
       return;
     }
 
+    let finalServiceId = selectedServiceId;
+    let finalServiceName = selectedServiceName;
+
+    if (anotherService) {
+      try {
+        const newService = await handleCreateAnotherService({
+          servicename: customServiceName,
+          price: Number(customServicePrice),
+        });
+        finalServiceId = newService.id.toString();
+        finalServiceName = newService.servicename;
+      } catch (error) {
+        return; // salir si hay error
+      }
+    }
+
     const data = {
-      idManicurista: user?.id, 
+      idManicurista: user.id,
       manicuristaName: user.username,
-      idService: selectedServiceId,
-      serviceName: selectedServiceName,
+      idService: finalServiceId,
+      serviceName: finalServiceName,
       cliente: cliente,
       authorized: true,
     };
@@ -43,25 +89,43 @@ const ServiceForm: React.FC = () => {
       setSelectedServiceId('');
       setSelectedServiceName('');
       setCliente('');
+      setAnotherService(false);
+      setCustomServiceName('');
+      setCustomServicePrice('');
     } catch (err) {
       alert('Error al registrar el servicio');
     }
   };
 
   return (
-     <div>
+    <div>
       <form onSubmit={handleSubmit}>
-        <select
-          value={selectedServiceId}
-          onChange={handleServiceChange}
-        >
+        <select value={selectedServiceId} onChange={handleServiceChange}>
           <option value="">Selecciona un servicio</option>
           {services.map(service => (
             <option key={service.id} value={service.id}>
               {service.servicename}
             </option>
           ))}
+          <option value="otro">Otro Servicio</option>
         </select>
+
+        {anotherService && (
+          <>
+            <input
+              type="text"
+              placeholder="Nombre del nuevo servicio"
+              value={customServiceName}
+              onChange={(e) => setCustomServiceName(e.target.value)}
+            />
+            <input
+              type="number"
+              placeholder="Precio del nuevo servicio"
+              value={customServicePrice}
+              onChange={(e) => setCustomServicePrice(e.target.value)}
+            />
+          </>
+        )}
 
         <input
           type="text"
