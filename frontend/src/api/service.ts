@@ -20,6 +20,13 @@ interface serviceRegister {
   authorized: boolean;
 }
 
+interface productRegister {
+  idManicurista: string;
+  manicuristaName: string;
+  productName: string;
+  cliente: string;
+}
+
 const API = 'http://localhost:3000/api'
 //crud servicios
 export const serviceRequest = (service: serviceCreate) => axios.post(`${API}/service`, service)
@@ -40,3 +47,6 @@ export const approveAnotherService = (id: string) => axios.put(`${API}/anotherSe
 export const getApprovedServicesLog = () => axios.get(`${API}/services/getApprove`)
 export const createAnotherService = (anotherService: serviceCreate) => axios.post(`${API}/anotherService`, anotherService)
 export const getAnotherServicesApi = () => axios.get(`${API}/anotherServices`)
+
+//crud productos
+export const createProductAPI = (productData: serviceCreate) => axios.post(`${API}/product`, productData)

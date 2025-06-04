@@ -20,6 +20,7 @@ import Bills from "./pages/Admin/bills/Bills";
 import ShowBills from "./pages/SuperAdmin/Bills/ShowBills";
 import Aprove from "./pages/Admin/AproveServices/Aprove";
 import Pay from "./pages/SuperAdmin/Pay/Pay";
+import RegisterProduct from "./pages/Manicurista/products/registerProduct";
 
 function App() {
   return (
@@ -55,6 +56,7 @@ function App() {
               <Route path="/userDash" element={<UserDash/>} />
               <Route path="/registerService" element={<ServiceForm/>} />
               <Route path="/servicesDone" element={<ServicesDone/>} />
+              <Route path="/registerProduct" element={<RegisterProduct/>} />
             </Route>
           </Route>
         </Routes>
