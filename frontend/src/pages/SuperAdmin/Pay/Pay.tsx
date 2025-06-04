@@ -87,43 +87,59 @@ const Pay: React.FC = () => {
   };
 
   useEffect(() => {
-    const fetchApprovedServices = async () => {
-      try {
-        setLoading(true);
-        const { data: approvedServices } = await getApprovedServicesLog();
+  const fetchApprovedServices = async () => {
+    try {
+      setLoading(true);
 
-        const enrichedServices = await Promise.all(
-          approvedServices.map(async (service: ApprovedService) => {
-            try {
-              const { data: details } = await getServiceByIdFromAPI(service.idService);
-              const price = parseFloat(details.price) || 0;
-              return {
-                ...service,
-                price: details.price,
-                numericPrice: price
-              };
-            } catch (error) {
-              console.error(`Error al obtener el servicio ${service.idService}`, error);
-              return {
-                ...service,
-                numericPrice: 0,
-                formattedPrice: 'N/A'
-              };
-            }
-          })
-        );
+      const { data } = await getApprovedServicesLog();
+      const { serviceLog, anotherService } = data;
 
-        processServices(enrichedServices);
-      } catch (err) {
-        console.error(err);
-        setError('Error al obtener servicios aprobados');
-      } finally {
-        setLoading(false);
-      }
-    };
+      const enrichedServiceLog = await Promise.all(
+        serviceLog.map(async (service: ApprovedService) => {
+          try {
+            const { data: details } = await getServiceByIdFromAPI(service.idService);
+            const price = parseFloat(details.price) || 0;
+            return {
+              ...service,
+              price: details.price,
+              numericPrice: price
+            };
+          } catch (error) {
+            console.error(`Error al obtener el servicio ${service.idService}`, error);
+            return {
+              ...service,
+              numericPrice: 0,
+              formattedPrice: 'N/A'
+            };
+          }
+        })
+      );
 
-    fetchApprovedServices();
-  }, []);
+      // Formatear anotherService que ya tiene price
+      const enrichedAnotherServices = anotherService.map((service: any) => {
+        const price = parseFloat(service.price) || 0;
+        return {
+          ...service,
+          serviceName: service.anotherServiceName,
+          numericPrice: price,
+          price: service.price
+        };
+      });
+
+      const combined = [...enrichedServiceLog, ...enrichedAnotherServices];
+      processServices(combined);
+    } catch (err) {
+      console.error(err);
+      setError('Error al obtener servicios aprobados');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchApprovedServices();
+}, []);
+
+
 
   return (
     <div style={{ width: '100%', margin: '0 auto'}}>

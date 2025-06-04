@@ -18,6 +18,11 @@ const anotherService = sequelize.define('anotherService', {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  price: {
+   type: DataTypes.DECIMAL(10, 2),
+    allowNull: false, 
+    validate: { min: 0 }
+  },
   authorized:{
     type: DataTypes.BOOLEAN,
     allowNull: false,

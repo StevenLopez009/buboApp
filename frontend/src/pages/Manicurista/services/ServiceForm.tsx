@@ -38,18 +38,6 @@ const ServiceForm: React.FC = () => {
     }
   };
 
-  const handleCreateAnotherService = async (data: ServiceCreate) => {
-    try {
-      const res = await createAnotherService(data);
-      await getServices(); 
-      return res.data; 
-    } catch (err: any) {
-      console.error(err);
-      alert('Error al crear el nuevo servicio');
-      throw err;
-    }
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -58,29 +46,41 @@ const ServiceForm: React.FC = () => {
       return;
     }
 
-    let finalServiceId = selectedServiceId;
-    let finalServiceName = selectedServiceName;
-
     if (anotherService) {
+      // Crear otro servicio personalizado
+      const data = {
+        idManicurista: user.id,
+        manicuristaName: user.username,
+        anotherServiceName: customServiceName,
+        price: customServicePrice,
+        cliente,
+        authorized: true
+      };
+
       try {
-        const newService = await handleCreateAnotherService({
-          servicename: customServiceName,
-          price: Number(customServicePrice),
-        });
-        finalServiceId = newService.id.toString();
-        finalServiceName = newService.servicename;
-      } catch (error) {
-        return; // salir si hay error
+        await createAnotherService(data);
+        alert('Otro servicio registrado con éxito');
+        setSelectedServiceId('');
+        setCliente('');
+        setAnotherService(false);
+        setCustomServiceName('');
+        setCustomServicePrice('');
+        return;
+      } catch (err) {
+        console.error(err);
+        alert('Error al registrar el otro servicio');
+        return;
       }
     }
 
+    // Servicio estándar
     const data = {
       idManicurista: user.id,
       manicuristaName: user.username,
-      idService: finalServiceId,
-      serviceName: finalServiceName,
-      cliente: cliente,
-      authorized: true,
+      idService: selectedServiceId,
+      serviceName: selectedServiceName,
+      cliente,
+      authorized: true
     };
 
     try {
@@ -89,9 +89,6 @@ const ServiceForm: React.FC = () => {
       setSelectedServiceId('');
       setSelectedServiceName('');
       setCliente('');
-      setAnotherService(false);
-      setCustomServiceName('');
-      setCustomServicePrice('');
     } catch (err) {
       alert('Error al registrar el servicio');
     }
@@ -140,3 +137,4 @@ const ServiceForm: React.FC = () => {
 };
 
 export default ServiceForm;
+

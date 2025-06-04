@@ -1,10 +1,10 @@
 import anotherService from "../models/anotherService.model.js"
 
 export const createAnotherServiceController = async (req, res) => {
-  const { idManicurista,manicuristaName,anotherServiceName, cliente } = req.body;
+  const { idManicurista,manicuristaName,anotherServiceName, cliente, price } = req.body;
 
   try {
-    const anotherServiceSaved = await anotherService.create({idManicurista,manicuristaName,anotherServiceName, cliente});
+    const anotherServiceSaved = await anotherService.create({idManicurista,manicuristaName,anotherServiceName, cliente, price});
 
     res.status(201).json({
       id: anotherServiceSaved.id,
@@ -12,6 +12,7 @@ export const createAnotherServiceController = async (req, res) => {
       manicuristaName:anotherServiceSaved.manicuristaName,
       serviceName: anotherServiceSaved.serviceName,
       cliente: anotherServiceSaved.cliente,
+      price: anotherServiceSaved.price,
       authorized: anotherServiceSaved.authorized
     });
   } catch (error) {
