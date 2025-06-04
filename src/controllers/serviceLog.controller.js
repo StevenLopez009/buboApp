@@ -1,5 +1,6 @@
 import anotherService from "../models/anotherService.model.js";
 import { serviceLog } from "../models/index.js";
+import productModel from "../models/product.model.js";
 
 export const serviceLogController = async (req, res) => {
   const { idManicurista,manicuristaName,serviceName, idService, cliente } = req.body;
@@ -75,9 +76,12 @@ export const getApprovedServicesLog = async (req, res) => {
       where: { authorized: true }
     })
 
+    const productsSold = await productModel.findAll()
+
      res.status(200).json({
       serviceLog: approvedServices,
-      anotherService: anotherServicesApproved
+      anotherService: anotherServicesApproved,
+      products: productsSold
     });
   } catch (error) {
     console.error("Error al obtener servicios aprobados:", error);

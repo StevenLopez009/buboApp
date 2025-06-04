@@ -7,12 +7,13 @@ interface ApprovedService {
   serviceName: string;
   manicuristaName: string;
   authorized: boolean;
-  idService: number;
+  idService?: number;
   price?: string;
   formattedPrice?: string;
   halfPrice?: string;
   numericPrice?: number;
   count?: number;
+  tipo?: 'producto' | 'servicio'; 
 }
 
 interface ManicuristaSummary {
@@ -60,23 +61,26 @@ const Pay: React.FC = () => {
       const summary = manicuristasMap[manicurista];
       const existingService = summary.services.find(s => s.serviceName === service.serviceName);
 
+      const porcentajePago = service.tipo === 'producto' ? 0.06 : 0.5;
+      const pagoManicurista = service.numericPrice * porcentajePago;
+      const { formatted: formattedPrice } = calculatePrices(service.numericPrice);
+      const formattedPago = formatPrice(pagoManicurista);
+
       if (existingService) {
         existingService.count! += 1;
         existingService.numericPrice! += service.numericPrice!;
-        const { formatted,  formattedHalf } = calculatePrices(existingService.numericPrice!);
-        existingService.formattedPrice = formatted;
-        existingService.halfPrice = formattedHalf;
+        existingService.halfPrice = formatPrice(existingService.numericPrice! * porcentajePago);
+        existingService.formattedPrice = formatPrice(existingService.numericPrice!);
       } else {
-        const { formatted, formattedHalf } = calculatePrices(service.numericPrice);
         summary.services.push({
           ...service,
           count: 1,
-          formattedPrice: formatted,
-          halfPrice: formattedHalf
+          formattedPrice,
+          halfPrice: formattedPago
         });
       }
 
-      summary.total += service.numericPrice / 2;
+      summary.total += pagoManicurista;
     });
 
     Object.values(manicuristasMap).forEach(summary => {
@@ -87,62 +91,76 @@ const Pay: React.FC = () => {
   };
 
   useEffect(() => {
-  const fetchApprovedServices = async () => {
-    try {
-      setLoading(true);
+    const fetchApprovedServices = async () => {
+      try {
+        setLoading(true);
 
-      const { data } = await getApprovedServicesLog();
-      const { serviceLog, anotherService } = data;
+        const { data } = await getApprovedServicesLog();
+        const { serviceLog, anotherService, products } = data;
 
-      const enrichedServiceLog = await Promise.all(
-        serviceLog.map(async (service: ApprovedService) => {
-          try {
-            const { data: details } = await getServiceByIdFromAPI(service.idService);
-            const price = parseFloat(details.price) || 0;
-            return {
-              ...service,
-              price: details.price,
-              numericPrice: price
-            };
-          } catch (error) {
-            console.error(`Error al obtener el servicio ${service.idService}`, error);
-            return {
-              ...service,
-              numericPrice: 0,
-              formattedPrice: 'N/A'
-            };
-          }
-        })
-      );
+        // Enriquecer serviceLog con precio
+        const enrichedServiceLog = await Promise.all(
+          serviceLog.map(async (service: ApprovedService) => {
+            try {
+              const { data: details } = await getServiceByIdFromAPI(service.idService!);
+              const price = parseFloat(details.price) || 0;
+              return {
+                ...service,
+                price: details.price,
+                numericPrice: price,
+                tipo: 'servicio'
+              };
+            } catch (error) {
+              console.error(`Error al obtener el servicio ${service.idService}`, error);
+              return {
+                ...service,
+                numericPrice: 0,
+                formattedPrice: 'N/A',
+                tipo: 'servicio'
+              };
+            }
+          })
+        );
 
-      // Formatear anotherService que ya tiene price
-      const enrichedAnotherServices = anotherService.map((service: any) => {
-        const price = parseFloat(service.price) || 0;
-        return {
-          ...service,
-          serviceName: service.anotherServiceName,
-          numericPrice: price,
-          price: service.price
-        };
-      });
+        // Enriquecer anotherService
+        const enrichedAnotherServices = anotherService.map((service: any) => {
+          const price = parseFloat(service.price) || 0;
+          return {
+            ...service,
+            serviceName: service.anotherServiceName,
+            numericPrice: price,
+            price: service.price,
+            tipo: 'servicio'
+          };
+        });
 
-      const combined = [...enrichedServiceLog, ...enrichedAnotherServices];
-      processServices(combined);
-    } catch (err) {
-      console.error(err);
-      setError('Error al obtener servicios aprobados');
-    } finally {
-      setLoading(false);
-    }
-  };
+        // Enriquecer productos
+        const enrichedProducts = products.map((product: any) => {
+          const price = parseFloat(product.price) || 0;
+          return {
+            ...product,
+            serviceName: product.productName,
+            numericPrice: price,
+            price: product.price,
+            tipo: 'producto'
+          };
+        });
 
-  fetchApprovedServices();
-}, []);
+        const combined = [...enrichedServiceLog, ...enrichedAnotherServices, ...enrichedProducts];
+        processServices(combined);
+      } catch (err) {
+        console.error(err);
+        setError('Error al obtener servicios aprobados');
+      } finally {
+        setLoading(false);
+      }
+    };
 
-
+    fetchApprovedServices();
+  }, []);
 
   return (
-    <div style={{ width: '100%', margin: '0 auto'}}>
+    <div style={{ width: '100%', margin: '0 auto' }}>
       <h1 style={{ textAlign: 'center', marginBottom: '30px' }}>Pagos a Manicuristas</h1>
 
       {loading && <p style={{ textAlign: 'center' }}>Cargando...</p>}
@@ -154,7 +172,7 @@ const Pay: React.FC = () => {
           border: '1px solid #e0e0e0',
           borderRadius: '8px',
           padding: '20px',
-          display:'inline-block'
+          display: 'inline-block'
         }}>
           <h2 style={{
             marginTop: 0,
@@ -175,12 +193,12 @@ const Pay: React.FC = () => {
                   boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
                 }}>
                   <p>
-                    <strong>Servicio:</strong> {service.serviceName}
+                    <strong>{service.tipo === 'producto' ? 'Producto' : 'Servicio'}:</strong> {service.serviceName}
                     {service.count > 1 ? ` x${service.count}` : ''}
                   </p>
                   <p><strong>Precio completo:</strong> {service.formattedPrice}</p>
-                  <p style={{ color: '#e67e22', fontWeight: 'bold' }}>
-                    <strong>Mitad para manicurista:</strong> {service.halfPrice}
+                  <p style={{ color: service.tipo === 'producto' ? '#2980b9' : '#e67e22', fontWeight: 'bold' }}>
+                    <strong>{service.tipo === 'producto' ? '6% para manicurista:' : 'Mitad para manicurista:'}</strong> {service.halfPrice}
                   </p>
                 </li>
               ))}

@@ -6,6 +6,7 @@ import authRoutes from "./routes/auth.routes.js"
 import serviceRoutes from "./routes/service.routes.js"
 import serviceLog from "./routes/serviceLog.routes.js"
 import billsRoutes from "./routes/bills.router.js"
+import productRoutes from "./routes/products.routes.js"
 
 const app = express()
 
@@ -19,6 +20,7 @@ app.use("/api", authRoutes)
 app.use("/api", serviceRoutes)
 app.use("/api", serviceLog)
 app.use("/api", billsRoutes)
+app.use("/api", productRoutes)
 
 
 export default app;
