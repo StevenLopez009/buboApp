@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import { serviceRequest, fetchServicesFromAPI , deleteServiceFromAPI,getServiceLogsById, getAllServicesLog, getServiceByIdFromAPI, approveServices, editServices, getAnotherServicesApi } from "../api/service";
+import { serviceRequest, fetchServicesFromAPI , deleteServiceFromAPI,getServiceLogsById, getAllServicesLog, getServiceByIdFromAPI, approveServices, editServices, getAnotherServicesApi, approveAnotherService } from "../api/service";
 import { registerService as registerServiceAPI } from "../api/service";
 
 interface Service {
@@ -51,6 +51,7 @@ interface ServiceContextType {
   getServicesByRol: (id: string) => Promise<void>;
   getAllServices:()=> Promise<void>;
   approveService:(id:string)=> Promise<void>;
+  approveAnotherServices:(id:string)=> Promise<void>;
   getAnotherServices:()=> Promise<void>;
   serviceLogs: ServiceRegister[];
   error: string | null;
@@ -198,6 +199,15 @@ export const ServiceProvider = ({ children }: { children: React.ReactNode }) => 
     }
   };
 
+  const approveAnotherServices = async (id:string) => {
+    try {
+      await approveAnotherService(id)
+      getAnotherServices();
+    } catch (error) {
+      console.error("Error approving another service:", error);
+    }
+  }
+
   const getAnotherServices = async () => {
   try {
     const { data } = await getAnotherServicesApi(); 
@@ -220,7 +230,8 @@ export const ServiceProvider = ({ children }: { children: React.ReactNode }) => 
       registerService,
       getServicesByRol, 
       getAllServices,
-      approveService, 
+      approveService,
+      approveAnotherServices, 
       getAnotherServices,
       error, 
       loading }}>

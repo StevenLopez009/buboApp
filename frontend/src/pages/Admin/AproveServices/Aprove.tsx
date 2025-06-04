@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useService } from "../../../context/ServiceContext";
 
 const Aprove = () => {
-  const { getAllServices, getAnotherServices, serviceLogs, anotherServicesState, approveService } = useService();
+  const { getAllServices, getAnotherServices, serviceLogs, anotherServicesState, approveService, approveAnotherServices } = useService();
 
 
   useEffect(() => {
@@ -35,7 +35,7 @@ const Aprove = () => {
             <p>Servicio: {log.anotherServiceName}</p>
             <p>Autorizado: {log.authorized ? "Sí" : "No"}</p>
             {!log.authorized && (
-              <button onClick={() => approveService(log.id)}>
+              <button onClick={() => approveAnotherServices(log.id)}>
                 Autorizar
               </button>
             )}

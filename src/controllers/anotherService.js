@@ -27,3 +27,21 @@ export const getAnotherServicesController = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 }
+
+export const approveAnotherService = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const service = await anotherService.findByPk(id);
+    if (!service) {
+      return res.status(404).json({ message: "Service log not found" });
+    }
+
+    service.authorized = true;
+    await service.save();
+
+    res.status(200).json({ message: "Service authorized successfully", service });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
