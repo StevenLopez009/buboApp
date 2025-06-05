@@ -21,6 +21,7 @@ import ShowBills from "./pages/SuperAdmin/Bills/ShowBills";
 import Aprove from "./pages/Admin/AproveServices/Aprove";
 import Pay from "./pages/SuperAdmin/Pay/Pay";
 import RegisterProduct from "./pages/Manicurista/products/registerProduct";
+import Pocket from "./pages/Manicurista/pocket/Pocket";
 
 function App() {
   return (
@@ -57,6 +58,7 @@ function App() {
               <Route path="/registerService" element={<ServiceForm/>} />
               <Route path="/servicesDone" element={<ServicesDone/>} />
               <Route path="/registerProduct" element={<RegisterProduct/>} />
+              <Route path="/pocket" element={<Pocket/>} />
             </Route>
           </Route>
         </Routes>

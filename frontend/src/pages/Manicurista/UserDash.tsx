@@ -8,7 +8,7 @@ const UserDash: React.FC = () => {
       <button onClick={() => navigate('/registerService')}>Servicios</button>
       <button onClick={() => navigate('/registerProduct')}>Productos</button>
       <button onClick={() => navigate('/servicesDone')}>servicios hechos</button>
-      <button>Bolsillo</button>
+      <button onClick={() => navigate('/pocket')}>Bolsillo</button>
     </div>
   );
 };
