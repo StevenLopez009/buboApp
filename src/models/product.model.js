@@ -19,6 +19,11 @@ const productModel = sequelize.define('product', {
     allowNull: false, 
     validate: { min: 0 }
   },
+  paid: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false
+  },
 }, {
   timestamps: true,
   tableName: 'product'

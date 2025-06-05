@@ -27,7 +27,13 @@ const anotherService = sequelize.define('anotherService', {
     type: DataTypes.BOOLEAN,
     allowNull: false,
     defaultValue: false
-  }
+  },
+  paid: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false
+  },
+  
 }, {
   timestamps: true,
   tableName: 'anotherServices'

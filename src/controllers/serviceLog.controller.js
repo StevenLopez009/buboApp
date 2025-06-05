@@ -15,7 +15,8 @@ export const serviceLogController = async (req, res) => {
       idService: serviceLogSaved.idService,
       serviceName: serviceLogSaved.serviceName,
       cliente: serviceLogSaved.cliente,
-      authorized: serviceLogSaved.authorized
+      authorized: serviceLogSaved.authorized,
+      paid: serviceLogSaved.paid
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -61,6 +62,24 @@ export const aproveServicesLog = async (req, res) => {
     await service.save();
 
     res.status(200).json({ message: "Service authorized successfully", service });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const payServiceLog = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const service = await serviceLog.findByPk(id);
+    if (!service) {
+      return res.status(404).json({ message: "Service log not found" });
+    }
+
+    service.paid = true;
+    await service.save();
+
+    res.status(200).json({ message: "Service paid successfully", service });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

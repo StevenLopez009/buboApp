@@ -26,7 +26,12 @@ const serviceLog = sequelize.define("serviceLog", {
     type: DataTypes.BOOLEAN,
     allowNull: false,
     defaultValue: false
-  }
+  },
+  paid: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false
+  },
 });
 
 export default serviceLog;

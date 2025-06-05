@@ -36,3 +36,21 @@ export const getProductsById = async (req, res) => {
     res.status(500).json({ message: "Error del servidor", error: error.message });
   }
 }
+
+export const payProduct= async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const product = await productModel.findByPk(id);
+    if (!product) {
+      return res.status(404).json({ message: "product not found" });
+    }
+
+    product.paid = true;
+    await product.save();
+
+    res.status(200).json({ message: "product paid successfully", service });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
