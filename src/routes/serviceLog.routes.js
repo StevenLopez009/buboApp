@@ -8,7 +8,7 @@ router.post('/serviceLog', serviceLogController)
 router.get("/serviceLog/manicurista/:idManicurista",  getServicesLogController)
 router.get('/serviceLog/admin', getAllServicesLog)
 router.put("/services/approve/:id", aproveServicesLog);
-router.put("/services/pay/:id", payServiceLog);
+router.put("/serviceLog/pay/:id", payServiceLog);
 router.get("/services/getApprove", getApprovedServicesLog);
 router.post('/anotherService', createAnotherServiceController);
 router.get('/anotherServices', getAnotherServicesController)

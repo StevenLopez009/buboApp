@@ -49,7 +49,7 @@ export const payProduct= async (req, res) => {
     product.paid = true;
     await product.save();
 
-    res.status(200).json({ message: "product paid successfully", service });
+    res.status(200).json({ message: "product paid successfully", product });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
