@@ -1,5 +1,5 @@
 import {  createContext, useContext, useState } from "react";
-import { loginRequest, RegisterRequest } from "../api/auth";
+import { deleteUserFromAPI, getUsersFromAPI, loginRequest, RegisterRequest } from "../api/auth";
 
 interface UserLogin {
   email: string;
@@ -24,10 +24,25 @@ interface UserRegister {
   rol: string
 }
 
+interface Employees{
+  id: string;
+  username: string;
+  email: string;
+  password: string;
+  contact: string;
+  rh: string;
+  eps: string;
+  age: string;
+  rol: string
+}
+
 interface AuthContextType {
   user: User | null;
+  employees: Employees[];
   signin: (user: UserLogin) => Promise<void>;
   signup: (user: UserRegister) => Promise<void>;
+  getEmployees: () => Promise<void>;
+  deleteEmployee: (id: string) => Promise<void>;
   isAuthenticated: boolean;
   errors: string[];
 }
@@ -44,6 +59,7 @@ export const useAuth =()=>{
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser]= useState(null);
+  const [employees, setEmployees] = useState<Employees[]>([]);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [errors, setErrors] = useState([]);
   
@@ -66,11 +82,30 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   } catch (error: any) {
    console.log(error)
   }
-};
+  };
 
+   const getEmployees = async () => {
+    try {
+      const res = await getUsersFromAPI();
+      setEmployees(res.data);
+      setErrors([]);
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const deleteEmployee = async (id: string) => {
+    try {
+      await deleteUserFromAPI(id);
+      setEmployees((prev) => prev.filter((employee) => employee.id.toString() !== id));
+      setErrors([]);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return(
-   <AuthContext.Provider value={{ signin, signup, user, isAuthenticated, errors }}>
+   <AuthContext.Provider value={{ signin, signup,getEmployees, deleteEmployee, user, isAuthenticated, errors, employees }}>
       {children}
     </AuthContext.Provider>
   )

@@ -10,7 +10,7 @@ const RootDash: React.FC = () => {
       <button onClick={() => navigate('/superadmin/services')}>Servicios</button>
       <button onClick={() => navigate('/superadmin/bills')}>Gastos</button>
       <button onClick={() => navigate('/superadmin/pays')}>Pagar</button>
-      <button>Roles</button>
+      <button onClick={() => navigate('/superadmin/users')}>Roles</button>
     </div>
   );
 };

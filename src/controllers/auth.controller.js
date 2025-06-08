@@ -31,6 +31,32 @@ export const registerController=async (req, res)=>{
   }
 }
 
+export const getUsersController=async (req, res)=>{
+  try {
+    const users = await User.findAll({
+      attributes: ['id', 'username', 'email', 'contact', 'rh', 'eps', 'age', 'rol']
+    });
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({message:error.message})
+  }
+}
+
+export const deleteUserController=async (req, res)=>{
+  const { id } = req.params;
+
+  try {
+    const userFound = await User.findByPk(id);
+    if(!userFound) return res.status(400).json({message:"user not found"})
+
+    await userFound.destroy();
+    res.sendStatus(204);
+  } catch (error) {
+    res.status(500).json({message:error.message})
+  }
+}
+
+
 export const loginController=async (req, res)=>{
  const {  email, password } = req.body;
 

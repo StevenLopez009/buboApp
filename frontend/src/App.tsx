@@ -20,8 +20,9 @@ import Bills from "./pages/Admin/bills/Bills";
 import ShowBills from "./pages/SuperAdmin/Bills/ShowBills";
 import Aprove from "./pages/Admin/AproveServices/Aprove";
 import Pay from "./pages/SuperAdmin/Pay/Pay";
-import RegisterProduct from "./pages/Manicurista/products/registerProduct";
 import Pocket from "./pages/Manicurista/pocket/Pocket";
+import ShowUsers from "./pages/SuperAdmin/Users/ShowUsers";
+import RegisterProduct from "./pages/Manicurista/products/RegisterProduct";
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
               <Route path="/superadmin/services" element={<Services />} />
               <Route path="/superadmin/bills" element={<ShowBills />} />
               <Route path="/superadmin/pays" element={<Pay />} />
+              <Route path="/superadmin/users" element={<ShowUsers />} />
             </Route>
           </Route>
 
@@ -49,6 +51,7 @@ function App() {
               <Route path="/admin/services" element={<Services />} />
               <Route path="/admin/aproveServices" element={<Aprove />} />
                <Route path="/admin/bills" element={<Bills />} />
+               <Route path="/admin/users" element={<ShowUsers />} />
             </Route>
           </Route>
 

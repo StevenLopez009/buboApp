@@ -9,7 +9,7 @@ const AdminDash: React.FC = () => {
       <button onClick={() => navigate('/admin/services')}>Crear Servicios</button>
       <button onClick={() => navigate('/admin/aproveServices')}>Aprobar Servicios</button>
       <button onClick={() => navigate('/admin/bills')}>Gastos</button>
-      <button>Manicuristas</button>
+      <button onClick={() => navigate('/admin/users')}>Roles</button>
     </div>
   );
 };
