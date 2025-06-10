@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import "./Splash.css"
 
 const Splash: React.FC = () => {
   const navigate = useNavigate();
@@ -8,9 +9,13 @@ const Splash: React.FC = () => {
   };
 
   return (
-    <div>
-      <h1>Bubo</h1>
-      <button onClick={handleStart}>Inicio</button>
+    <div className="start-section">
+      <div className="start-section__content">
+        <h1 className="start-section__title">Bubo</h1>
+      </div>
+      <div className="start-section__footer">
+        <button className="start-section__button" onClick={handleStart}>Inicio</button>
+      </div>
     </div>
   );
 };
