@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 import { createAccessToken } from "../libs/jwt.js";
 
 export const registerController=async (req, res)=>{
-  const { username, email, password, contact, rh, eps, age, rol } = req.body;
+  const { username, email, password, contact, rh, eps, age, rol, image } = req.body;
 
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -16,6 +16,7 @@ export const registerController=async (req, res)=>{
       eps,
       age,
       rol,
+      image
     });
     const userSaved= await newUser.save()
     const token = await createAccessToken({id:userSaved.id})
@@ -34,7 +35,7 @@ export const registerController=async (req, res)=>{
 export const getUsersController=async (req, res)=>{
   try {
     const users = await User.findAll({
-      attributes: ['id', 'username', 'email', 'contact', 'rh', 'eps', 'age', 'rol']
+      attributes: ['id', 'username', 'email', 'contact', 'rh', 'eps', 'age', 'rol', 'image'],
     });
     res.json(users);
   } catch (error) {

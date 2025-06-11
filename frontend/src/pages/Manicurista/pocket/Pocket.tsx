@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { getApprovedServicesLog, getServiceByIdFromAPI } from "../../../api/service";
 import { useAuth } from "../../../context/AuthContext";
+import { Wallet } from 'lucide-react';
+import "./Pocket.css"; 
 
 const Pocket: React.FC = () => {
   const { user } = useAuth();
@@ -21,8 +23,6 @@ const Pocket: React.FC = () => {
       try {
         const { data } = await getApprovedServicesLog();
         const { serviceLog, anotherService, products } = data;
-
-        // Filtrar solo los que pertenecen a este manicurista
         const filteredServiceLog = serviceLog.filter(s => s.idManicurista === user.id);
         const filteredAnotherService = anotherService.filter(s => s.idManicurista === user.id);
         const filteredProducts = products.filter(p => p.idManicurista === user.id);
@@ -30,7 +30,6 @@ const Pocket: React.FC = () => {
         let totalPaid = 0;
         let totalUnpaid = 0;
 
-        // Procesar serviceLog (necesita fetch del precio)
         for (const service of filteredServiceLog) {
           try {
             const { data: serviceData } = await getServiceByIdFromAPI(service.idService);
@@ -77,11 +76,20 @@ const Pocket: React.FC = () => {
   }, [user]);
 
   return (
-    <div>
-      <h1>Bolsillo</h1>
-      <p>Bienvenido, {user?.username}</p>
-      <h2>Total pagado: {formatCOP(paidTotal)}</h2>
-      <h2>Total no pagado: {formatCOP(unpaidTotal)}</h2>
+    <div className="pocket">
+      <div className="pocket__header">
+        <Wallet className="w-6 h-6 text-primary" />
+        <h1 className="pocket__title">Bolsillo</h1>
+      </div>
+      <p className="pocket__welcome">Bienvenida, {user?.username}</p>
+      <div className="pocket__totals">
+        <h2 className="pocket__total">
+          <span className="pocket__label">Total pagado:</span> {formatCOP(paidTotal)}
+        </h2>
+        <h2 className="pocket__total pocket__total--unpaid">
+          <span className="pocket__label">Total no pagado:</span> {formatCOP(unpaidTotal)}
+        </h2>
+      </div>
     </div>
   );
 };

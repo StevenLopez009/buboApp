@@ -13,7 +13,8 @@ interface UserRegister {
   rh: string;
   eps: string;
   age: string;
-  rol: string
+  rol: string;
+  image?: string;
 }
 
 const API = 'http://localhost:3000/api'

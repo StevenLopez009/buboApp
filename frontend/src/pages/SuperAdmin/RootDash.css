@@ -20,7 +20,7 @@
 
 .dashboard__name {
   font-size: 1.5rem;
-  margin: 20px;
+  margin: 10px 5px;
 }
 
 .dashboard__img {
@@ -32,8 +32,8 @@
 
 .dashboard__content {
   height: 45vh;
-  width: 90%;
-  margin: 40px auto;
+  max-width: 90%;
+  margin: 80px auto;
 }
 
 .dashboard__content {

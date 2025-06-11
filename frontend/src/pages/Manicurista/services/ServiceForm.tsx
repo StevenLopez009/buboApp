@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useService } from '../../../context/ServiceContext';
 import { useAuth } from '../../../context/AuthContext';
 import { createAnotherService } from '../../../api/service';
+import './ServiceForm.css';
 
 interface ServiceCreate {
   servicename: string;
@@ -95,9 +96,13 @@ const ServiceForm: React.FC = () => {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <select value={selectedServiceId} onChange={handleServiceChange}>
+    <div className="service-form">
+      <form onSubmit={handleSubmit} className="service-form__form">
+        <select
+          value={selectedServiceId}
+          onChange={handleServiceChange}
+          className="service-form__select"
+        >
           <option value="">Selecciona un servicio</option>
           {services.map(service => (
             <option key={service.id} value={service.id}>
@@ -114,12 +119,14 @@ const ServiceForm: React.FC = () => {
               placeholder="Nombre del nuevo servicio"
               value={customServiceName}
               onChange={(e) => setCustomServiceName(e.target.value)}
+              className="service-form__input"
             />
             <input
               type="number"
               placeholder="Precio del nuevo servicio"
               value={customServicePrice}
               onChange={(e) => setCustomServicePrice(e.target.value)}
+              className="service-form__input"
             />
           </>
         )}
@@ -129,8 +136,11 @@ const ServiceForm: React.FC = () => {
           placeholder="Cliente"
           value={cliente}
           onChange={(e) => setCliente(e.target.value)}
+          className="service-form__input"
         />
-        <button type="submit">Registrar</button>
+        <button type="submit" className="service-form__button">
+          Registrar
+        </button>
       </form>
     </div>
   );

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAuth } from '../../../context/AuthContext';
 import {createProductAPI } from "../../../api/service";
+import './RegisterProduct.css'; 
 
 const RegisterProduct = () => {
   const { user } = useAuth();
@@ -42,9 +43,9 @@ const RegisterProduct = () => {
   };
 
   return (
-    <div style={{ maxWidth: 400, margin: '0 auto' }}>
-      <h2>Registrar producto vendido</h2>
-      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+    <div className="product-form">
+      <h2 className="product-form__title">Registrar producto vendido</h2>
+      <form onSubmit={handleSubmit} className="product-form__form">
         <input
           type="text"
           name="productName"
@@ -52,6 +53,7 @@ const RegisterProduct = () => {
           onChange={handleChange}
           placeholder="Nombre del producto"
           required
+          className="product-form__input"
         />
         <input
           type="text"
@@ -60,12 +62,17 @@ const RegisterProduct = () => {
           onChange={handleChange}
           placeholder="Precio"
           required
+          className="product-form__input"
         />
-        <button type="submit" disabled={loading}>
+        <button
+          type="submit"
+          disabled={loading}
+          className="product-form__button"
+        >
           {loading ? 'Guardando...' : 'Guardar'}
         </button>
       </form>
-      {message && <p style={{ marginTop: 10 }}>{message}</p>}
+      {message && <p className="product-form__message">{message}</p>}
     </div>
   );
 };

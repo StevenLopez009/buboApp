@@ -21,7 +21,8 @@ interface UserRegister {
   rh: string;
   eps: string;
   age: string;
-  rol: string
+  rol: string;
+  image?: string;
 }
 
 interface Employees{
@@ -34,6 +35,7 @@ interface Employees{
   eps: string;
   age: string;
   rol: string
+  image: string;
 }
 
 interface AuthContextType {

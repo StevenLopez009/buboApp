@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { GetRegisterBill } from '../../../api/bills';
+import './ShowBills.css'; 
 
 interface BillType {
   id: number;
@@ -39,20 +40,38 @@ const ShowBills: React.FC = () => {
   }, 0) ?? 0;
 
   return (
-    <div>
-      <h1>Show Bills</h1>
-      {loading && <p>Cargando...</p>}
-      {error && <p>{error}</p>}
+    <div className="expenses">
+      <h1 className="expenses__title">Gastos</h1>
+      <div className="expenses__info">
+        <p className="expenses__description">info</p>
+      </div>
+
+      <div className="expenses__filters">
+        <button className="expenses__button expenses__button--may">mayo</button>
+        <button className="expenses__button expenses__button--june">junio</button>
+      </div>
+
+      {loading && <p className="expenses__message">Cargando...</p>}
+      {error && <p className="expenses__message">{error}</p>}
+
       {bills && (
         <>
-          <ul>
+          <ul className="expenses__list">
             {bills.map((bill) => (
-              <li key={bill.id}>
-                <strong>{bill.product}</strong> ({bill.brand}) - ${bill.price} x {bill.quantity}
+              <li className="expenses__item" key={bill.id}>
+                <strong className="expenses__product">{bill.product}</strong>
+                <span className="expenses__details">
+                  ({bill.brand}) - ${bill.price} x {bill.quantity}
+                </span>
               </li>
             ))}
           </ul>
-          <h2>Total: ${total.toLocaleString()}</h2>
+
+          <div className="expenses__total">
+            <h2 className="expenses__total-value">
+              Total: ${total.toLocaleString()}
+            </h2>
+          </div>
         </>
       )}
     </div>

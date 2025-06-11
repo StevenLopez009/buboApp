@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import "./RootDash.css"
+import Carousel from './Components/Carousel';
 
 const RootDash: React.FC = () => {
   const navigate = useNavigate();
@@ -16,9 +17,9 @@ const RootDash: React.FC = () => {
           </svg>
         </div>
         <div className='dashboard__name'>
-          <p>Hello Steven</p>
+          <p>Hello</p>
         </div>
-        <div className='dashboard__img'></div>
+        <Carousel/>
       </div>
       <div className="dashboard__content">
         <button

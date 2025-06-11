@@ -1,0 +1,40 @@
+.approve {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.approve__title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 1.2rem;
+}
+
+.approve__list {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 2rem;
+}
+
+.approve__item {
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.approve__text {
+  margin: 0.3rem 0;
+  font-size: 1rem;
+}
+
+.approve__button {
+  margin-top: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  background-color: #39881a;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-weight: 500;
+}

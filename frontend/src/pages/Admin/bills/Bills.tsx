@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form';
-import { RegisterBill } from '../../../api/bills';  // Ajusta el path si es necesario
+import { RegisterBill } from '../../../api/bills';  
 import { useState } from 'react';
+import "./Bills.css"
 
 interface Bill {
   brand: string;
@@ -24,42 +25,42 @@ const Bills: React.FC = () => {
   };
 
   return (
-    <div className="p-4 max-w-md mx-auto">
-      <h2 className="text-xl font-bold mb-4">Registrar Gasto</h2>
+    <div className="bills">
+      <h2 className="bills__title">Registrar Gasto</h2>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
+      <form onSubmit={handleSubmit(onSubmit)} className="bills__form">
         <input
           {...register("brand", { required: true })}
           type="text"
           placeholder="Marca del producto"
-          className="w-full p-2 border rounded"
+          className="bills__input"
         />
         <input
           {...register("product", { required: true })}
           type="text"
           placeholder="Producto"
-          className="w-full p-2 border rounded"
+          className="bills__input"
         />
         <input
           {...register("price", { required: true, valueAsNumber: true })}
           type="number"
           step="0.01"
           placeholder="Precio"
-          className="w-full p-2 border rounded"
+          className="bills__input"
         />
         <input
           {...register("quantity", { required: true, valueAsNumber: true })}
           type="number"
           placeholder="Cantidad"
-          className="w-full p-2 border rounded"
+          className="bills__input"
         />
 
-        <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">
+        <button type="submit" className="bills__button">
           Registrar
         </button>
       </form>
 
-      {message && <p className="mt-4 text-center">{message}</p>}
+      {message && <p className="bills__message">{message}</p>}
     </div>
   );
 };

@@ -1,0 +1,118 @@
+.services {
+  padding: 2rem;
+  font-family: Arial, sans-serif;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.services__header {
+  margin-bottom: 1rem;
+}
+
+.services__title {
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.service-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.service-form__input {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.service-form__button {
+  padding: 0.6rem;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+}
+
+.service-form__button:hover {
+  background-color: #43a047;
+}
+
+.service-form__button--cancel {
+  background-color: #f44336;
+}
+
+.service-form__button--cancel:hover {
+  background-color: #e53935;
+}
+
+/* Lista de servicios */
+.service-list__message {
+  font-style: italic;
+  color: #666;
+}
+
+.service-list__items {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.service-list__item {
+  background-color: #f9f9f9;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.service-list__text {
+  flex: 1 1 auto;
+  margin-right: 1rem;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.service-list__button {
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+  margin-left: 0.5rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.service-list__buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.service-list__buttons {
+  align-self: flex-end;
+}
+
+
+.service-list__button--delete {
+  background-color: #e53935;
+}
+
+.service-list__button--edit {
+  background-color: #43a047;
+  color: #fff;
+}
+
+.service-list__button:hover {
+  opacity: 0.9;
+}
