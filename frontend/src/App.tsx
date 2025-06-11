@@ -16,12 +16,12 @@ import Services from "./components/Services/Services";
 import ServiceForm from "./pages/Manicurista/services/ServiceForm";
 import ServicesDone from "./pages/Manicurista/servicesDone/ServicesDone";
 import Bills from "./pages/Admin/bills/Bills";
-import ShowBills from "./pages/SuperAdmin/Bills/ShowBills";
 import Aprove from "./pages/Admin/AproveServices/Aprove";
 import Pay from "./pages/SuperAdmin/Pay/Pay";
 import Pocket from "./pages/Manicurista/pocket/Pocket";
 import ShowUsers from "./components/Users/ShowUsers";
 import RegisterProduct from "./pages/Manicurista/products/RegisterProduct";
+import ExpenseFilter from "./pages/SuperAdmin/Bills/ExpenseFilter";
 
 function App() {
   return (
@@ -37,7 +37,7 @@ function App() {
             <Route path="/rootDash" element={<RootDash />} />
               <Route path="/superadmin/createRol" element={<CreateRol />} />
               <Route path="/superadmin/services" element={<Services />} />
-              <Route path="/superadmin/bills" element={<ShowBills />} />
+              <Route path="/superadmin/bills" element={<ExpenseFilter />} />
               <Route path="/superadmin/pays" element={<Pay />} />
               <Route path="/superadmin/users" element={<ShowUsers />} />
             </Route>
