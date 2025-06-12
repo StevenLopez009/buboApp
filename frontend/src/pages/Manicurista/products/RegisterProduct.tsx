@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAuth } from '../../../context/AuthContext';
 import {createProductAPI } from "../../../api/service";
+import imgProducts from "../../../assets/products.png"
 import './RegisterProduct.css'; 
 
 const RegisterProduct = () => {
@@ -45,6 +46,7 @@ const RegisterProduct = () => {
   return (
     <div className="product-form">
       <h2 className="product-form__title">Registrar producto vendido</h2>
+      <img className="product-form__image" src={imgProducts} alt="" />
       <form onSubmit={handleSubmit} className="product-form__form">
         <input
           type="text"

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useService } from '../../../context/ServiceContext';
 import { useAuth } from '../../../context/AuthContext';
 import { createAnotherService } from '../../../api/service';
+import bgService from '../../../assets/bgService.jpg';
 import './ServiceForm.css';
 
 interface ServiceCreate {
@@ -48,7 +49,6 @@ const ServiceForm: React.FC = () => {
     }
 
     if (anotherService) {
-      // Crear otro servicio personalizado
       const data = {
         idManicurista: user.id,
         manicuristaName: user.username,
@@ -97,6 +97,8 @@ const ServiceForm: React.FC = () => {
 
   return (
     <div className="service-form">
+      <h2>Registrar Servicio</h2>
+      <img src={bgService} alt="" />
       <form onSubmit={handleSubmit} className="service-form__form">
         <select
           value={selectedServiceId}

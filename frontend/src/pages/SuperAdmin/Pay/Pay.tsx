@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getServiceByIdFromAPI, getApprovedServicesLog } from '../../../api/service';
+import './Pay.css';
 
 import {
   payServiceLogAPI,
@@ -35,6 +36,7 @@ const Pay: React.FC = () => {
   const [manicuristaSummaries, setManicuristaSummaries] = useState<ManicuristaSummary[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [selectedName, setSelectedName] = useState(null);
 
   const formatPrice = (value: number): string =>
     new Intl.NumberFormat('es-CO', {
@@ -197,45 +199,39 @@ const Pay: React.FC = () => {
   }
 };
 
+ const toggleManicurista = (name:any) => {
+    setSelectedName(prev => (prev === name ? null : name));
+  };
+
   return (
-    <div style={{ width: '100%', margin: '0 auto' }}>
-      <h1 style={{ textAlign: 'center', marginBottom: '30px' }}>Pagos a Manicuristas</h1>
+    <div className="pagos">
+  <h1 className="pagos__titulo">Pagos a Manicuristas</h1>
 
-      {loading && <p style={{ textAlign: 'center' }}>Cargando...</p>}
-      {error && <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>}
+  {loading && <p className="pagos__estado">Cargando...</p>}
+  {error && <p className="pagos__estado pagos__estado--error">{error}</p>}
 
-      {manicuristaSummaries.map(summary => (
-        <div key={summary.name} style={{
-          marginBottom: '30px',
-          border: '1px solid #e0e0e0',
-          borderRadius: '8px',
-          padding: '20px',
-          display: 'inline-block'
-        }}>
-          <h2 style={{
-            marginTop: 0,
-            borderBottom: '2px solid #ddd',
-            paddingBottom: '10px'
-          }}>
-            {summary.name}
-          </h2>
+  {manicuristaSummaries.map(summary => (
+    <div className="pagos__manicurista" key={summary.name}>
+      <button
+        className="pagos__boton"
+        onClick={() => toggleManicurista(summary.name)}
+      >
+        {summary.name}
+      </button>
 
-          <div style={{ marginBottom: '15px' }}>
-            <h3 style={{ margin: '10px 0' }}>Servicios:</h3>
-            <ul style={{ listStyle: 'none', padding: 0 }}>
+      {selectedName === summary.name && (
+        <div className="pagos__detalles">
+          <div className="pagos__servicios">
+            <h3 className="pagos__subtitulo">Servicios:</h3>
+            <ul className="pagos__lista">
               {summary.services.map(service => (
-                <li key={service.serviceName} style={{
-                  padding: '12px',
-                  margin: '8px 0',
-                  borderRadius: '6px',
-                  boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
-                }}>
+                <li className="pagos__item" key={service.serviceName}>
                   <p>
                     <strong>{service.tipo === 'producto' ? 'Producto' : 'Servicio'}:</strong> {service.serviceName}
                     {service.count > 1 ? ` x${service.count}` : ''}
                   </p>
                   <p><strong>Precio completo:</strong> {service.formattedPrice}</p>
-                  <p style={{ color: service.tipo === 'producto' ? '#2980b9' : '#e67e22', fontWeight: 'bold' }}>
+                  <p>
                     <strong>{service.tipo === 'producto' ? '6% para manicurista:' : 'Mitad para manicurista:'}</strong> {service.halfPrice}
                   </p>
                 </li>
@@ -243,36 +239,19 @@ const Pay: React.FC = () => {
             </ul>
           </div>
 
-          <div style={{
-            backgroundColor: '#2ecc71',
-            color: 'white',
-            padding: '15px',
-            borderRadius: '6px',
-            textAlign: 'center',
-            fontWeight: 'bold',
-            fontSize: '1.2em'
-          }}>
-            <p style={{ margin: 0 }}>TOTAL A PAGAR: {summary.formattedTotal}</p>
+          <div className="pagos__total">
+            <p><strong>TOTAL A PAGAR:</strong> {summary.formattedTotal}</p>
           </div>
-          <button
-            onClick={() => handlePay(summary.services)}
-            style={{
-              marginTop: '15px',
-              padding: '10px 20px',
-              backgroundColor: '#2980b9',
-              color: 'white',
-              border: 'none',
-              borderRadius: '5px',
-              cursor: 'pointer',
-              fontWeight: 'bold'
-            }}
-          >
+
+          <button className="pagos__pagar" onClick={() => handlePay(summary.services)}>
             Pagar a {summary.name}
           </button>
-
         </div>
-      ))}
+      )}
     </div>
+  ))}
+</div>
+
   );
 };
 

@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useService } from "../../../context/ServiceContext";
 import { useAuth } from "../../../context/AuthContext";
+import "./ServicesDone.css";
 
 const ServicesDone = () => {
   const { getServicesByRol, serviceLogs, loading, error } = useService(); 

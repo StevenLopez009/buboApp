@@ -1,0 +1,78 @@
+.pagos {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 1rem;
+  font-family: sans-serif;
+}
+
+.pagos__titulo {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.pagos__estado {
+  text-align: center;
+  font-style: italic;
+  color: #666;
+}
+
+.pagos__estado--error {
+  color: red;
+}
+
+.pagos__manicurista {
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.pagos__boton {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #f0f0f0;
+  border: none;
+  text-align: left;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.pagos__boton:hover {
+  background-color: #e0e0e0;
+}
+
+.pagos__detalles {
+  padding: 1rem;
+  background-color: #fafafa;
+}
+
+.pagos__subtitulo {
+  margin-bottom: 0.5rem;
+}
+
+.pagos__lista {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.pagos__item {
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #ddd;
+}
+
+.pagos__total {
+  margin-top: 1rem;
+  font-weight: bold;
+}
+
+.pagos__pagar {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: green;
+  border: none;
+  color: white;
+  border-radius: 4px;
+}

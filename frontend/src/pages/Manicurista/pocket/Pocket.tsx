@@ -76,9 +76,9 @@ const Pocket: React.FC = () => {
   }, [user]);
 
   return (
+    <div className="pocket-container">
     <div className="pocket">
       <div className="pocket__header">
-        <Wallet className="w-6 h-6 text-primary" />
         <h1 className="pocket__title">Bolsillo</h1>
       </div>
       <p className="pocket__welcome">Bienvenida, {user?.username}</p>
@@ -91,6 +91,8 @@ const Pocket: React.FC = () => {
         </h2>
       </div>
     </div>
+    </div>
+    
   );
 };
 

@@ -87,9 +87,9 @@ const ExpensesFilter = () => {
                 Gastos filtrados:
               </Typography>
 
-              <Box component="ul" sx={{ listStyle: 'none', p: 0, mb: 3 }}>
+              <Box component="ul" sx={{ listStyle: 'none', p: 0, mb: 3,maxHeight: 300, overflowY: 'auto'  }}>
                 {filteredExpenses.map((expense) => (
-                  <Box key={expense.id} sx={{ mb: 2, p: 2, border: '1px solid #ddd', borderRadius: 1, bgcolor: '#fff' }}>
+                  <Box key={expense.id} sx={{ mb: 2, p: 2, border: '1px solid #ddd', borderRadius: 1,  }}>
                     <Typography>
                       <strong>{expense.product}</strong> - {expense.brand} - {expense.quantity} × ${expense.price}
                     </Typography>

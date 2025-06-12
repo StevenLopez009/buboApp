@@ -1,0 +1,55 @@
+.pocket-container {
+  height: 95vh;
+  background-image: url('../../../assets/bgPocket.jpg');
+  background-size: cover;
+  background-position: bottom center;
+}
+
+.pocket {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  border-radius: 12px;
+  font-family: sans-serif;
+}
+
+.pocket__header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.pocket__title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.pocket__welcome {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 1.5rem;
+}
+
+.pocket__totals {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.pocket__total {
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: #2c3e50;
+}
+
+.pocket__total--unpaid {
+  color: #c0392b;
+}
+
+.pocket__label {
+  font-weight: bold;
+  margin-right: 0.5rem;
+  color: #444;
+}
