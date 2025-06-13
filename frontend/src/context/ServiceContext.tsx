@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import { serviceRequest, fetchServicesFromAPI , deleteServiceFromAPI,getServiceLogsById, getAllServicesLog, getServiceByIdFromAPI, approveServices, editServices, getAnotherServicesApi, approveAnotherService } from "../api/service";
+import { serviceRequest, fetchServicesFromAPI , deleteServiceFromAPI,getServiceLogsById, getAllServicesLog, getServiceByIdFromAPI, approveServices, editServices, getAnotherServicesApi, approveAnotherService, deleteAnotherServiceAPI, deleteServiceLogAPI, getAnotherServicesByRolAPI } from "../api/service";
 import { registerService as registerServiceAPI } from "../api/service";
 
 interface Service {
@@ -49,10 +49,13 @@ interface ServiceContextType {
   deleteService: (id: string) => Promise<void>;
   registerService:(data: ServiceRegister) => Promise<void>;
   getServicesByRol: (id: string) => Promise<void>;
+  getAnotherServicesByRol: (id: string) => Promise<void>;
   getAllServices:()=> Promise<void>;
   approveService:(id:string)=> Promise<void>;
   approveAnotherServices:(id:string)=> Promise<void>;
   getAnotherServices:()=> Promise<void>;
+  deleteAnotherService: (id: string) => Promise<void>;
+  deleteServiceLog: (id: string) => Promise<void>;
   serviceLogs: ServiceRegister[];
   error: string | null;
   loading: boolean;
@@ -176,6 +179,21 @@ export const ServiceProvider = ({ children }: { children: React.ReactNode }) => 
     }
   }
 
+  
+  const getAnotherServicesByRol = async (id: string) => {
+  try {
+    setLoading(true);
+    const res = await getAnotherServicesByRolAPI(id);
+    setAnotherServicesState(res.data); 
+    setError(null);
+  } catch (error) {
+    console.error(error);
+    setError("Error al obtener los servicios adicionales por rol");
+  } finally{
+    setLoading(false);
+  }
+  }
+
    const getAllServices = async () => {
     try {
       setLoading(true);
@@ -217,6 +235,34 @@ export const ServiceProvider = ({ children }: { children: React.ReactNode }) => 
   }
 };
 
+  const deleteAnotherService = async (id: string) => {
+  try {
+    setLoading(true);
+    await deleteAnotherServiceAPI(id);
+    setAnotherServicesState((prev) => prev.filter((service) => service.id !== parseInt(id)));
+    setError(null);
+  } catch (err: any) {
+    console.error(err);
+    setError("Error al eliminar servicio adicional");
+  } finally {
+    setLoading(false);
+  }
+  };
+
+ const deleteServiceLog = async (id: string) => {
+  try {
+    setLoading(true);
+    await deleteServiceLogAPI(id); // Usa la API correcta
+    setServiceLogs((prev) => prev.filter((log) => log.id !== parseInt(id)));
+    setError(null);
+  } catch (err: any) {
+    console.error(err);
+    setError("Error al eliminar el registro del servicio");
+  } finally {
+    setLoading(false);
+  }
+};
+
   return (
     <ServiceContext.Provider value={{ 
       services,
@@ -229,10 +275,13 @@ export const ServiceProvider = ({ children }: { children: React.ReactNode }) => 
       deleteService,
       registerService,
       getServicesByRol, 
+      getAnotherServicesByRol,
       getAllServices,
       approveService,
       approveAnotherServices, 
       getAnotherServices,
+      deleteAnotherService,
+      deleteServiceLog,
       error, 
       loading }}>
       {children}

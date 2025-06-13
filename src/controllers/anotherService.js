@@ -65,3 +65,32 @@ export const payAnotherService = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+export const deleteAnotherService = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const service = await anotherService.findByPk(id);
+    if (!service) {
+      return res.status(404).json({ message: "anotherService not found" });
+    }
+
+    await service.destroy();
+    res.status(200).json({ message: "anotherService deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
+
+export const getAnotherServicesByRol = async (req, res) => {
+  const { idManicurista } = req.params;
+
+  try {
+    const anotherServices = await anotherService.findAll({
+      where: { idManicurista }
+    });
+    res.status(200).json(anotherServices);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}

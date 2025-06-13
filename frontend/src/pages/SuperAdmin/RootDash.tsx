@@ -1,63 +1,17 @@
 import { useNavigate } from 'react-router-dom';
-import "./RootDash.css"
-import Carousel from './Components/Carousel';
+import DashboardLayout from '../../components/DashboardLayout/DashboardLayout';
 
 const RootDash: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="dashboard">
-      <div className='dashboard__header'>
-        <div className='dashboard__info'>
-          <svg className="dashboard__icon" width="24" height="24" viewBox="0 0 24 24">
-            <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-          </svg>
-          <svg className="dashboard__icon" width="24" height="24" viewBox="0 0 24 24">
-            <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round"/>
-          </svg>
-        </div>
-        <div className='dashboard__name'>
-          <p>Hello</p>
-        </div>
-        <Carousel/>
-      </div>
-      <div className="dashboard__content">
-        <button
-          className="dashboard__button dashboard__button--primary"
-          onClick={() => navigate("/superadmin/createRol")}
-        >
-          Crear rol
-        </button>
-
-        <button
-          className="dashboard__button"
-          onClick={() => navigate('/superadmin/services')}
-        >
-          Servicios
-        </button>
-
-        <button
-          className="dashboard__button"
-          onClick={() => navigate('/superadmin/bills')}
-        >
-          Gastos
-        </button>
-
-        <button
-          className="dashboard__button"
-          onClick={() => navigate('/superadmin/pays')}
-        >
-          Pagar
-        </button>
-
-        <button
-          className="dashboard__button"
-          onClick={() => navigate('/superadmin/users')}
-        >
-          Roles
-        </button>
-      </div>
-    </div>
+     <DashboardLayout>
+      <button onClick={() => navigate('/superadmin/createRol')} className="dashboard__button dashboard__button--primary">Crear rol</button>
+      <button onClick={() => navigate('/superadmin/services')} className="dashboard__button">Servicios</button>
+      <button onClick={() => navigate('/superadmin/bills')} className="dashboard__button">Gastos</button>
+      <button onClick={() => navigate('/superadmin/pays')} className="dashboard__button">Pagar</button>
+      <button onClick={() => navigate('/superadmin/users')} className="dashboard__button">Roles</button>
+    </DashboardLayout>
   );
 };
 

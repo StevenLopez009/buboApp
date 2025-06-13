@@ -9,7 +9,9 @@ const Aprove = () => {
     serviceLogs,
     anotherServicesState,
     approveService,
-    approveAnotherServices
+    approveAnotherServices,
+    deleteAnotherService,
+    deleteServiceLog,
   } = useService();
 
   useEffect(() => {
@@ -19,6 +21,12 @@ const Aprove = () => {
 
   const unauthorizedServiceLogs = serviceLogs.filter((log) => !log.authorized);
   const unauthorizedAnotherServices = anotherServicesState.filter((log) => !log.authorized);
+  const handleDeleteAnotherService = (id: string) => {
+    deleteAnotherService(id);
+  };
+  const handleDeleteServiceLog = (id: string) => {
+    deleteServiceLog(id);
+  };
 
   return (
     <div className="approve">
@@ -34,6 +42,7 @@ const Aprove = () => {
             >
               Autorizar
             </button>
+            <button  onClick={() => handleDeleteServiceLog(log.id)} className="approve__button">Denegar</button>
           </li>
         ))}
       </ul>
@@ -49,6 +58,7 @@ const Aprove = () => {
             >
               Autorizar
             </button>
+             <button onClick={() => handleDeleteAnotherService(log.id)} className="approve__button">Denegar</button>
           </li>
         ))}
       </ul>

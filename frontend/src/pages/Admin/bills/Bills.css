@@ -1,7 +1,10 @@
 .bills {
   max-width: 400px;
+  height: 100vh;
   margin: 0 auto;
   padding: 1rem;
+  display: flex;
+  flex-direction: column;
 }
 
 .bills__title {
@@ -36,4 +39,11 @@
   margin-top: 1rem;
   text-align: center;
   font-weight: 500;
+}
+
+.bills__img {
+  width: 90%;
+  height: auto;
+  margin: 0 auto;
+  border-radius: 8px;
 }

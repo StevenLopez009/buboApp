@@ -41,6 +41,7 @@ export const deleteServiceFromAPI = (id: string) => axios.delete(`${API}/service
 //servicios registrados 
 export const registerService = (service: serviceRegister) => axios.post(`${API}/serviceLog`, service)
 export const getServiceLogsById = (id: string) => axios.get(`${API}/serviceLog/manicurista/${id}`)
+export const getAnotherServicesByRolAPI = (id: string) => axios.get(`${API}/anotherService/manicurista/${id}`)
 export const getAllServicesLog = () => axios.get(`${API}/serviceLog/admin`)
 export const approveServices = (id: string) => axios.put(`${API}/services/approve/${id}`)
 export const payServiceLogAPI = (id: string) => axios.put(`${API}/serviceLog/pay/${id}`)
@@ -49,6 +50,8 @@ export const getApprovedServicesLog = () => axios.get(`${API}/services/getApprov
 export const createAnotherService = (anotherService: serviceCreate) => axios.post(`${API}/anotherService`, anotherService)
 export const getAnotherServicesApi = () => axios.get(`${API}/anotherServices`)
 export const payAnotherServiceAPI = (id: string) => axios.put(`${API}/anotherService/pay/${id}`)
+export const deleteAnotherServiceAPI = (id: string) => axios.delete(`${API}/anotherService/${id}`)
+export const deleteServiceLogAPI = (id: string) => axios.delete(`${API}/serviceLog/${id}`)
 
 //crud productos
 export const createProductAPI = (productData: serviceCreate) => axios.post(`${API}/product`, productData)

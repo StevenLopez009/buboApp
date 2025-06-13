@@ -107,3 +107,19 @@ export const getApprovedServicesLog = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+export const deleteServiceLog = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const service = await serviceLog.findByPk(Number(id));
+    if (!service) {
+      return res.status(404).json({ message: "Service log not found" });
+    }
+
+    await service.destroy();
+    res.status(200).json({ message: "Service log deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}

@@ -11,7 +11,7 @@ const Splash: React.FC = () => {
   return (
     <div className="start-section">
       <div className="start-section__content">
-        <h1 className="start-section__title">Bubo</h1>
+        <h1 className="start-section__title">bubo</h1>
       </div>
       <div className="start-section__footer">
         <button className="start-section__button" onClick={handleStart}>Inicio</button>

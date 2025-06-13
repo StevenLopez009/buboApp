@@ -4,12 +4,13 @@ import { useAuth } from "../../../context/AuthContext";
 import "./ServicesDone.css";
 
 const ServicesDone = () => {
-  const { getServicesByRol, serviceLogs, loading, error } = useService(); 
+  const { getServicesByRol, getAnotherServicesByRol, serviceLogs,anotherServicesState, loading, error } = useService(); 
   const { user } = useAuth();
 
   useEffect(() => {
     if (user?.id) {
       getServicesByRol(user.id);
+      getAnotherServicesByRol(user.id);
     }
   }, [user]);
 
@@ -39,6 +40,27 @@ const ServicesDone = () => {
           ))}
         </ul>
       )}
+      <h2>Servicios Adicionales</h2>
+        {anotherServicesState.length === 0 ? (
+          <p>No hay servicios adicionales registrados aún.</p>
+        ) : (
+          <ul className="services-list">
+            {anotherServicesState.map((log) => (
+              <li key={log.id} className="service-item">
+                <div className="service-details">
+                  <p><strong>Cliente:</strong> {log.cliente}</p>
+                  <p><strong>Servicio:</strong> {log.anotherServiceName}</p>
+                  <p><strong>Realizado por:</strong> {log.manicuristaName}</p>
+                  <p><strong>Estado:</strong> 
+                    <span className={log.authorized ? "status-approved" : "status-pending"}>
+                      {log.authorized ? "Aprobado" : "Pendiente"}
+                    </span>
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import {  createContext, useContext, useState } from "react";
-import { deleteUserFromAPI, getUsersFromAPI, loginRequest, RegisterRequest } from "../api/auth";
+import { deleteUserFromAPI, getUsersFromAPI, loginRequest, logoutRequest, RegisterRequest } from "../api/auth";
 
 interface UserLogin {
   email: string;
@@ -43,6 +43,7 @@ interface AuthContextType {
   employees: Employees[];
   signin: (user: UserLogin) => Promise<void>;
   signup: (user: UserRegister) => Promise<void>;
+  logout: () => Promise<void>;
   getEmployees: () => Promise<void>;
   deleteEmployee: (id: string) => Promise<void>;
   isAuthenticated: boolean;
@@ -86,6 +87,17 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }
   };
 
+  const logout = async () => {
+    try {
+      await logoutRequest();
+      setUser(null);
+      setIsAuthenticated(false);
+      setErrors([]);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
    const getEmployees = async () => {
     try {
       const res = await getUsersFromAPI();
@@ -107,7 +119,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   return(
-   <AuthContext.Provider value={{ signin, signup,getEmployees, deleteEmployee, user, isAuthenticated, errors, employees }}>
+   <AuthContext.Provider value={{ signin, signup,logout, getEmployees, deleteEmployee, user, isAuthenticated, errors, employees }}>
       {children}
     </AuthContext.Provider>
   )

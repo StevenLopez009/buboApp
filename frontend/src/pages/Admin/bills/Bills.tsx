@@ -2,6 +2,7 @@ import { useForm } from 'react-hook-form';
 import { RegisterBill } from '../../../api/bills';  
 import { useState } from 'react';
 import "./Bills.css"
+import bgGastos from '../../../assets/products.png';
 
 interface Bill {
   brand: string;
@@ -27,7 +28,7 @@ const Bills: React.FC = () => {
   return (
     <div className="bills">
       <h2 className="bills__title">Registrar Gasto</h2>
-
+      <img className='bills__img' src={bgGastos} alt="" />
       <form onSubmit={handleSubmit(onSubmit)} className="bills__form">
         <input
           {...register("brand", { required: true })}
@@ -61,6 +62,7 @@ const Bills: React.FC = () => {
       </form>
 
       {message && <p className="bills__message">{message}</p>}
+      
     </div>
   );
 };

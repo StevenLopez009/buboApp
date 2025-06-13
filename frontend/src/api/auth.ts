@@ -20,5 +20,6 @@ interface UserRegister {
 const API = 'http://localhost:3000/api'
 export const loginRequest = (user: UserLogin) => axios.post(`${API}/login`, user);
 export const RegisterRequest = (user: UserRegister) => axios.post(`${API}/register`, user)
+export const logoutRequest = () => axios.post(`${API}/logout`);
 export const getUsersFromAPI = () => axios.get(`${API}/users`);
 export const deleteUserFromAPI = (id: string) => axios.delete(`${API}/users/${id}`);
